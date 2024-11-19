@@ -1,0 +1,14 @@
+/* Overlay for the sidebar */
+  .sidebar-overlay.open {
+    transform: translateX(0); /* Make the sidebar visible */
+  }
+  
+  .sidebar-overlay.open .sidebar {
+    transform: translateX(0); /* Slide the sidebar into view */
+  }
+  
+  
+ 
+  
+ 
+  
