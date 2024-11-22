@@ -3,6 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../Services/api";
+import PasswordInstructions from "../Components/PasswordInstructions";
 
 const ResetPassword = () => {
 
@@ -22,7 +23,7 @@ const ResetPassword = () => {
 
   // validate password
   const validatePassword = (password) =>
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password) 
 
 // Check for password Match of both password fields
   const checkPasswordMatch = () => {
@@ -94,8 +95,8 @@ const ResetPassword = () => {
   return (
 
     // Reset Password
-    <div className="container flex flex-col items-center mb-12 md:mb-20">
-      <h3 className="mt-6 mb-2 font-bold text-lg text-orange-600">
+    <div className="container flex flex-col items-center mb-12 md:mb-20 md:min-h-96">
+      <h3 className="mt-6 mb-2 font-bold text-2xl text-orange-600">
         Update Password
       </h3>
 
@@ -158,6 +159,11 @@ const ResetPassword = () => {
             } p-1 px-2 rounded-sm focus:outline-orange-600 focus:shadow-md`}
           />
         </div>
+
+        {/* Password instructions */}
+       { password.length > 0 &&
+        <PasswordInstructions /> 
+        }
 
         {/* Update Password button */}
         <button

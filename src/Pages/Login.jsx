@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "../Services/api";
+import PasswordInstructions from "../Components/PasswordInstructions";
+import { useDispatch } from "react-redux";
+import { setResident } from "../Features/residentSlice";
+
 
 const Login = () => {
   // States
@@ -13,6 +17,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   // validate payload
   const validatePayload = (payload) => {
@@ -43,16 +50,25 @@ const Login = () => {
 
       // Store token and role
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("token", response.data.token);
-      toast.success(response.data.message);
+      localStorage.setItem("role", response.data.role);
 
-      // Redirect to home page
-      window.location.href = "/";
+      // Dispatch action
+      if (response.data.role === "resident") {
+       dispatch(setResident(response.data.userId));
+      }
+      console.log(response.data);
+      console.log(response.data.userId);
+
+      // Show success message
+      toast.success(response.data.message);
 
       // Reset form
       setEmail("");
       setPassword("");
       setError(null);
+
+      // Redirect to home page
+      navigate("/")
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
@@ -62,7 +78,7 @@ const Login = () => {
   return (
     // login
     <div className="container flex flex-col items-center mb-12 md:mb-20">
-      <h3 className="mt-6 mb-2 font-bold text-lg text-orange-600">Log In</h3>
+      <h3 className="mt-6 mb-2 font-bold text-2xl text-orange-600">Log In</h3>
       <p className="text-gray-400 mb-6 text-center">
         Log into your account to access all the features
       </p>
@@ -76,8 +92,7 @@ const Login = () => {
 
       {/* login form */}
       <form onSubmit={handleSubmit} className="w-4/5 md:w-5/12 lg:w-3/12">
-
-      {/* Email field */}
+        {/* Email field */}
         <div className="mb-6 relative">
           <label htmlFor="email" className="block my-2 font-medium">
             Email
@@ -134,6 +149,9 @@ const Login = () => {
             Forgot Password
           </Link>
         </div>
+
+        {/* Password instructions */}
+        {password.length > 0 && <PasswordInstructions />}
 
         {/* Login button */}
         <button

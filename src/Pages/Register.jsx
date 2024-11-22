@@ -9,6 +9,7 @@ import { MdEmail } from "react-icons/md";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css"; // Import styles for the PhoneInput component
 import api from "./../Services/api";
+import PasswordInstructions from "../Components/PasswordInstructions";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -28,7 +29,8 @@ const Register = () => {
 
   // Validate password (at least 8 characters, one number, one letter, one special character)
   const validatePassword = (password) =>
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&/])[A-Za-z\d@$!%*?&/]{8,}$/.test(password);
+
 
   // Validate phone number (using react-phone-number-input's own format validation)
   const validatePhoneNumber = (phoneNumber) =>
@@ -59,6 +61,8 @@ const Register = () => {
       return;
     }
 
+    console.log(password, "hello")
+
     if (!validatePassword(password)) {
       toast.error(
         "Password must be at least 8 characters long, contain at least one number, one letter, and one special character"
@@ -67,6 +71,7 @@ const Register = () => {
       return;
     }
 
+    console.log("success")
     // Check if role is selected
     if (!role) {
       toast.error("Please select a role");
@@ -101,7 +106,7 @@ const Register = () => {
   return (
     // register forms
     <div className="container flex flex-col items-center mb-12 md:mb-20">
-      <h3 className="mt-6 mb-2 font-bold text-lg text-orange-600">
+      <h3 className="mt-6 mb-2 font-bold text-2xl text-orange-600">
         Create Account
       </h3>
 
@@ -215,6 +220,13 @@ const Register = () => {
             )}
           </button>
         </div>
+
+
+       {/* Password instructions */}
+       { password.length > 0 &&
+        <PasswordInstructions /> 
+        }
+
 
        {/* button */}
         <div>

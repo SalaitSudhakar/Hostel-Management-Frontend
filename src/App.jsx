@@ -7,13 +7,15 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import NotFound from "./Pages/NotFound";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
-import Sidebar from "./Components/sidebar";
+import Sidebar from "./Components/Sidebar";
 import { ToastContainer } from "react-toastify";
-
+import Home from "./Pages/Home";
+import Profile from "./Pages/Profile";
+import { ProtectedRoutes } from "./Components/ProtectedRoutes";
+import CreateMaintenanceRequest from "./Pages/CreateMaintenanceRequest";
+import MaintenanceRequests from "./Pages/MaintenanceRequests";
 
 const App = () => {
-
- 
   return (
     <div>
       <ToastContainer />
@@ -22,7 +24,7 @@ const App = () => {
           <Navbar />
         </>
         <>
-          <Sidebar className="md:hidden"/>
+          <Sidebar className="md:hidden" />
         </>
         <Routes>
           <Route path="/register" element={<Register />} />
@@ -32,10 +34,36 @@ const App = () => {
             path="/reset-password/:id/:resetToken"
             element={<ResetPassword />}
           />
+          <Route path="/" element={<Home />} />
+          {/* Protected Profile Route */}
+          <Route
+            path="/resident/profile/:id"
+            element={
+              <ProtectedRoutes adminOnly={true}>
+                <Profile />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/maintenance-request/create"
+            element={
+              <ProtectedRoutes adminOnly={true}>
+                <CreateMaintenanceRequest />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/maintenance-requests"
+            element={
+              <ProtectedRoutes adminOnly={true}>
+                <MaintenanceRequests />
+              </ProtectedRoutes>
+            }
+          />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
 
-        
         <>
           <Footer />
         </>

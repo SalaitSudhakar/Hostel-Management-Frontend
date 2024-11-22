@@ -1,15 +1,18 @@
 import NotFound from "../Pages/NotFound";
 
-export const ProtectedRoutes = ({ children, adminOnly = false, staffOnly = false }) => {
+export const ProtectedRoutes = ({ children, adminOnly = false, staffOnly = false, residentOnly = false }) => {
    const token = localStorage.getItem("token");
-   const userRole = localStorage.getItem("userRole");   
+   const role = localStorage.getItem("role");   
    if (!token) {
       return <NotFound to="/login" />;
    }
-   if (adminOnly && userRole !== "admin") {
+   if (adminOnly && role !== "admin") {
       return <NotFound />;
    }
-   if (staffOnly && userRole !== "staff") {
+   if (staffOnly && role !== "staff") {
+      return <NotFound />;
+   }
+   if (residentOnly && role !== "resident") {
       return <NotFound />;
    }
    return children

@@ -54,8 +54,8 @@ const ForgotPassword = () => {
 
   return (
     // Forgot Password
-    <div className="container flex flex-col items-center mb-12 md:mb-20">
-      <h3 className="mt-6 mb-2 font-bold text-lg text-orange-600">
+    <div className="container flex flex-col items-center mb-12 md:mb-20 lg:min-h-96">
+      <h3 className="mt-6 mb-2 font-bold text-2xl text-orange-600">
        Reset Password
       </h3>
       <p className="text-gray-400 mb-6 text-center ">
@@ -65,11 +65,11 @@ const ForgotPassword = () => {
 
       {/* Error */}
       {error && (
-        <div className="w-4/5 md:w-5/12 lg:w-3/12 bg-red-100 p-3 mb-4 text-red-600 rounded">{error}</div>
+        <div className="w-4/5 md:w-5/12 lg:w-3/12  bg-red-100 p-3 mb-4 text-red-600 rounded">{error}</div>
       )}
 
       {/* Form  */}
-      <form onSubmit={handleSubmit} className="w-4/5 md:w-5/12 lg:w-3/12">
+      <form onSubmit={handleSubmit} className=" w-4/5 md:w-5/12 lg:w-3/12">
 
       {/* Email */}
         <div className="mb-6 relative">

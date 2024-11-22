@@ -3,31 +3,34 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
 import { toggleSidebar } from "../Features/SidebarSlice";
 import { useDispatch } from "react-redux";
+import { logoutResident } from "../Features/residentSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuthenticated = !!localStorage.getItem("token");
-  const isAdmin = localStorage.getItem("userRole") === "admin";
+  const isAdmin = localStorage.getItem("role") === "admin";
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("userRole");
-    navigate("/login");
+    localStorage.removeItem("role");
+    dispatch(logoutResident());
+    navigate("/");
   };
+  
   return (
     <nav className="w-full bg-white py-4 border-b-2 ">
       <div className="w-[90%] mx-auto flex justify-between items-center">
-        <h2 className=" text-orange-600">
-          <Link to={"/"} className="text-xl font-bold hover:no-underline">HM Hostel</Link>
+        <h2 className=" text-orange-600 text-xl">
+          <Link to={"/"} className=" font-bold hover:no-underline">HM Hostel</Link>
         </h2>
 
-        <ul className="flex gap-6  items-center justify-center">
-          <li className="hover:text-orange-600 font-semibold">
+        <ul className="flex gap-4 text-sm md:text-base items-center justify-center">
+          <li className="hidden md:block hover:text-orange-600 font-semibold">
             <Link to="/">Home</Link>
           </li>
           {isAdmin && (
             <>
-              <li>
+              <li className="hidden md:block ">
                 <Link to="/admin">Admin</Link>
               </li>
             </>
