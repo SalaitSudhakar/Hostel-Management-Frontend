@@ -3,7 +3,6 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
 import { toggleSidebar } from "../Features/SidebarSlice";
 import { useDispatch } from "react-redux";
-import { logoutResident } from "../Features/residentSlice";
 import Tooltip from "@mui/material/Tooltip";
 
 const Navbar = () => {
