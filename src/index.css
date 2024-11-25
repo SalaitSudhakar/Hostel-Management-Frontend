@@ -3,3 +3,13 @@
 @tailwind utilities;
 
 
+/* If you want to customize spinner or error message further */
+@layer components {
+    .loading-container {
+      @apply flex justify-center items-center min-h-screen bg-gray-100;
+    }
+    
+    .error-message {
+      @apply bg-red-500 text-white p-5 rounded-md;
+    }
+  }

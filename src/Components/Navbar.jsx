@@ -4,33 +4,38 @@ import { Link, useNavigate } from "react-router-dom";
 import { toggleSidebar } from "../Features/SidebarSlice";
 import { useDispatch } from "react-redux";
 import { logoutResident } from "../Features/residentSlice";
+import Tooltip from "@mui/material/Tooltip";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuthenticated = !!localStorage.getItem("token");
-  const isAdmin = localStorage.getItem("role") === "admin";
+  const isAdmin = localStorage.getItem("userRole") === "admin";
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("role");
+    localStorage.removeItem("userRole");
     dispatch(logoutResident());
     navigate("/");
   };
-  
+
   return (
     <nav className="w-full bg-white py-4 border-b-2 ">
       <div className="w-[90%] mx-auto flex justify-between items-center">
         <h2 className=" text-orange-600 text-xl">
-          <Link to={"/"} className=" font-bold hover:no-underline">HM Hostel</Link>
+          <Tooltip title="Home Page Link" arrow>
+            <Link to={"/"} className=" font-bold hover:no-underline">
+              HM Hostel
+            </Link>
+          </Tooltip>
         </h2>
 
-        <ul className="flex gap-4 text-sm md:text-base items-center justify-center">
+        <ul className="flex gap-6  items-center justify-center">
           <li className="hidden md:block hover:text-orange-600 font-semibold">
             <Link to="/">Home</Link>
           </li>
           {isAdmin && (
             <>
-              <li className="hidden md:block ">
+              <li>
                 <Link to="/admin">Admin</Link>
               </li>
             </>
@@ -44,21 +49,23 @@ const Navbar = () => {
                 LogOut
               </button>
             </li>
-          )
-        : (
-          <li>
-              <Link 
-                to={"/login"}
-                className="font-semibold"
-              >
+          ) : (
+            <li>
+              <Link to={"/login"} className="font-semibold">
                 Login
               </Link>
             </li>
-        )}
+          )}
+
           <li>
-            <button className="hover:text-orange-600 hover:bg-white  mt-2 p-2 border rounded-full bg-orange-600 text-white">
-              <RxHamburgerMenu className="w-4 h-4" onClick={() => dispatch(toggleSidebar())} />
-            </button>
+            <Tooltip title="open sidebar">
+              <button
+                className="hover:text-orange-600 hover:bg-white  mt-2 p-2 border rounded-full bg-orange-600 text-white"
+                onClick={() => dispatch(toggleSidebar())}
+              >
+                <RxHamburgerMenu className="w-4 h-4" />
+              </button>
+            </Tooltip>
           </li>
         </ul>
       </div>

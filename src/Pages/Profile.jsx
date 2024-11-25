@@ -1,50 +1,69 @@
 import React, { useEffect, useState } from "react";
 import api from "../Services/api";
-import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
+import { BeatLoader } from "react-spinners";
+import { MdModeEdit } from "react-icons/md";
+import { Link } from "react-router-dom";
+import Tooltip from "@mui/material/Tooltip";
 
 const Profile = () => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
   const [resident, setResident] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await api.get("/resident/profile");
+      setResident(response.data.data);
+      setLoading(false);
+    } catch (error) {
+      setError(error.response?.data?.message || "Failed to fetch data");
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchResidentData = async () => {
-      
-      try {
-        
-        setLoading(true);
-        const response = await api.get(`/resident/profile/${id}`);
-        setResident(response.data.data); // Assuming the API sends the resident data under `data`
-        dispatch(setResident(response.data.data));
-        setLoading(false);
-      } catch (err) {
-        console.log(err);
-        toast.error(err.response.data.message); 
-        setLoading(false);
-      }
-    };
+    fetchUserProfile(); // Fetch profile when the component mounts
+  }, [resident]);
 
-    fetchResidentData();
-  }, [id, dispatch]);
-
-  if (loading) {
-    return <div className="text-center text-lg mt-4">Loading...</div>;
+  // If error occurs, display error message
+  if (error) {
+    return (
+      <div className="w-full min-h-screen ">
+        <div className=" flex justify-center items-center text-red-500 p-5 rounded-md">
+          <p>{typeof error === "string" ? error : error.message}</p>
+        </div>
+      </div>
+    );
   }
 
+  /* Page Loading container */
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <BeatLoader color="#9CA3AF" size={15} />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full bg-white py-6 min-h-[450px]">
-      <div className="w-[96%] md:w-2/5 mx-auto p-6 border border-orange-600 rounded-md shadow-md">
+      <div className="w-[96%] md:w-2/5 mx-auto p-6 border border-gray-400 rounded-md shadow-lg">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-orange-600 text-2xl font-bold mb-4">
-            User Profile
+          <h2 className="text-orange-600 text-lg md:text-xl font-bold mb-4 ">
+            Profile
           </h2>
-          <div>Edit</div>
+
+        <Tooltip title="Edit" arrow>
+          <Link
+            to="/resident/profile/edit"
+            className=" bg-gray-200 p-1 rounded-full border border-gray-800 hover:bg-orange-600 hover:text-white hover:border-white"
+          >
+            <MdModeEdit size={18} />
+          </Link>
+          </Tooltip>
+
         </div>
-        <div className="space-y-4">
+        <div className="space-y-4 text-sm md:text-base">
           <div className="flex items-center justify-between">
             <span className="font-semibold text-gray-600">Name:</span>
             <span className="text-blue-800">{resident?.name || "N/A"}</span>
@@ -78,13 +97,13 @@ const Profile = () => {
               Emergency Contact Phone:
             </span>
             <span className="text-blue-800">
-              {resident?.emergencyContact?.phone || "N/A"}
+              {resident?.emergencyContact?.phoneNumber || "N/A"}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="font-semibold text-gray-600">Status:</span>
+            <span className="font-semibold text-gray-600">Relationship:</span>
             <span className="text-blue-800">
-              {resident?.status?.status || "N/A"}
+              {resident?.emergencyContact?.relationship || "N/A"}
             </span>
           </div>
         </div>

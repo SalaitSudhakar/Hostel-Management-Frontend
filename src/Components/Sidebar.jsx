@@ -4,21 +4,15 @@ import { toggleSidebar } from "../Features/SidebarSlice";
 import "../Css/Sidebar.css";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import "../App.css"
+import "../App.css";
+
 
 const Sidebar = () => {
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const dispatch = useDispatch();
 
-   // Retrieve resident data from Redux store
-   const resident = useSelector((state) => state.resident); 
-  
-   const residentId = resident.id;  // Access the residentId from the store
-   
-  
   const isAuthenticated = !!localStorage.getItem("token");
   const role = localStorage.getItem("role") || "";
-
 
   /* Handle closing the sidebar when clicking outside the sidebar */
   const handleCloseSidebar = (e) => {
@@ -41,37 +35,46 @@ const Sidebar = () => {
         onClick={handleCloseSidebar}
       >
         {/* sidebar close button */}
-        <button
-          className="absolute top-3 right-4 text-2xl font-bold p-2"
-          onClick={() => dispatch(toggleSidebar())}
-        >
-          {/* close icon */}
-          <IoClose className="text-red-600 hover:text-white hover:bg-red-600 rounded-full transition-all duration-200 ease-in-out" />
-        </button>
+       
+          <button
+            className="absolute top-3 right-4 text-2xl font-bold p-2"
+            onClick={() => dispatch(toggleSidebar())}
+          >
+            {/* close icon */}
+            <IoClose className="text-red-600 hover:text-white hover:bg-red-600 rounded-full transition-all duration-200 ease-in-out" />
+          </button>
+       
         {/* side bar list items */}
-        <ul className="flex flex-col text-sm md:text-base gap-4 m-6 md:mt-14 md:mx-5 mt-12">
+        <ul className="flex flex-col gap-4 m-6 md:mt-14 md:mx-5 mt-12">
           <li>
             <Link to="/">Home</Link>
           </li>
           {isAuthenticated && role === "resident" && (
             <>
               <li>
-              <Link to={`/resident/profile/${residentId}`}>View Profile</Link>
+                <Link to={`/resident/profile`}>View Profile</Link>
               </li>
               <li>
-                <Link to={`/resident/maintenance-request/{residentId}`}>Maintenance Request</Link>
+                <Link to={`/resident/maintenance/request`}>
+                  Maintenance Request
+                </Link>
+              </li>
+              <li>
+                <Link to={`/resident/bill`}>
+                  Bill
+                </Link>
               </li>
             </>
           )}
-          {isAuthenticated && role === "admin"  && (
+          {isAuthenticated && role === "admin" && (
             <>
               <li>
                 <Link to="/admin">Dashboard</Link>
               </li>
               <li>
-                <Link to="/admin/add-rooms">Rooms</Link>
+                <Link to="/admin/room/create">Create Room</Link>
               </li>
-             {/*  <li>
+              {/*  <li>
                 <Link to="/admin/residents">Residents</Link>
               </li> */}
               <li>
@@ -82,16 +85,14 @@ const Sidebar = () => {
               </li>
             </>
           )}
-          {isAuthenticated && role === "staff"  && (
+          {isAuthenticated && role === "staff" && (
             <>
               <li>
-                <Link to="/staff/requests">Maintenance Request</Link>
+                <Link to="/admin">Maintenance Request</Link>
               </li>
             </>
           )}
-          
         </ul>
-
       </div>
     </div>
   );

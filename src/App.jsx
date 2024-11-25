@@ -11,9 +11,10 @@ import Sidebar from "./Components/Sidebar";
 import { ToastContainer } from "react-toastify";
 import Home from "./Pages/Home";
 import Profile from "./Pages/Profile";
+import EditProfile from "./Pages/EditProfile"
 import { ProtectedRoutes } from "./Components/ProtectedRoutes";
 import CreateMaintenanceRequest from "./Pages/CreateMaintenanceRequest";
-import MaintenanceRequests from "./Pages/MaintenanceRequests";
+import CreateRoom from "./Pages/CreateRoom";
 
 const App = () => {
   return (
@@ -37,30 +38,40 @@ const App = () => {
           <Route path="/" element={<Home />} />
           {/* Protected Profile Route */}
           <Route
-            path="/resident/profile/:id"
+            path="/resident/profile"
             element={
-              <ProtectedRoutes adminOnly={true}>
+              <ProtectedRoutes residentOnly={true}>
                 <Profile />
               </ProtectedRoutes>
             }
           />
           <Route
-            path="/maintenance-request/create"
+            path="/resident/create-request/:residentId"
             element={
-              <ProtectedRoutes adminOnly={true}>
+              <ProtectedRoutes residentOnly={true}>
                 <CreateMaintenanceRequest />
               </ProtectedRoutes>
             }
           />
-          <Route
-            path="/maintenance-requests"
+          <Route 
+            path="/resident/profile/edit"
             element={
-              <ProtectedRoutes adminOnly={true}>
-                <MaintenanceRequests />
+              <ProtectedRoutes residentOnly={true}>
+                <EditProfile />
               </ProtectedRoutes>
             }
-          />
+            />
 
+            {/* Staff Part */}
+            {/* Admin Part */}
+            <Route
+            path="/admin/room/create"
+            element={
+              <ProtectedRoutes adminOnly={true}>
+                <CreateRoom />
+              </ProtectedRoutes>
+            }
+            />
           <Route path="*" element={<NotFound />} />
         </Routes>
 
