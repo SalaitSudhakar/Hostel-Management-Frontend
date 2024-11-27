@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from "react-spinners";
-import { useNavigate } from "react-router-dom";
 import api from "../Services/api";
 
 const CreateRoom = () => {
@@ -14,10 +13,11 @@ const CreateRoom = () => {
   const [amenities, setAmenities] = useState("");
   const [roomDescription, setRoomDescription] = useState("");
   const [discount, setDiscount] = useState("");
+
   const [images, setImages] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
+
 
   console.log(
     roomNumber,
@@ -25,7 +25,9 @@ const CreateRoom = () => {
     price,
     capacity,
     amenities,
-    roomDescription
+    roomDescription,
+    discount,
+    images
   );
 
   // Handle image file change (uploads to the form)
@@ -46,20 +48,25 @@ const CreateRoom = () => {
       !capacity ||
       !amenities ||
       !roomDescription ||
-      !discount
-    ) {
+      !discount 
+      
+      ) {
       console.log(errorMessage);
       toast.error("All fields are required");
       setIsSubmitting(false);
       return;
     }
 
-    if (isNaN(parseInt(price)) || isNaN(parseInt(capacity)) || isNaN(parseInt(discount))) {
-        toast.error("Price, capacity, and discount must be valid numbers");
-        setIsSubmitting(false);
-        return;
-      }
-      
+    if (
+      isNaN(parseInt(price)) ||
+      isNaN(parseInt(capacity)) ||
+      isNaN(parseInt(discount))
+    ) {
+      toast.error("Price, capacity, and discount must be valid numbers");
+      setIsSubmitting(false);
+      return;
+    }
+
     const formData = new FormData();
     formData.append("roomNumber", roomNumber);
     formData.append("roomType", roomType);
@@ -68,8 +75,11 @@ const CreateRoom = () => {
     formData.append("amenities", amenities);
     formData.append("roomDescription", roomDescription);
     formData.append("discount", parseInt(discount));
+   
 
+    /* Handle images */
     if (images) {
+      console.log(images);
       for (let i = 0; i < images.length; i++) {
         formData.append("images", images[i]);
       }
@@ -89,25 +99,23 @@ const CreateRoom = () => {
       // POST request to create the room
       const response = await api.post("/room/create", formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`, // Important for file uploads
         },
       });
 
-      if (response.data.ok) {
-        toast.success("Room created successfully!");
+      toast.success("Room created successfully!");
 
-        // Reset form after successful submission
-        setRoomNumber("");
-        setRoomType("");
-        setPrice("");
-        setCapacity("");
-        setAmenities("");
-        setRoomDescription("");
-        setDiscount("");
-        setImages(null);
-        navigate("/");
-      }
+      // Reset form after successful submission
+      setRoomNumber("");
+      setRoomType("");
+      setPrice("");
+      setCapacity("");
+      setAmenities("");
+      setRoomDescription("");
+      setDiscount("");
+     
+      setImages(null);
+    
     } catch (error) {
       console.log(error);
       setErrorMessage(error?.response?.data?.message || "Error creating room");
@@ -116,8 +124,12 @@ const CreateRoom = () => {
     setIsSubmitting(false);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div className="container mb-12 md:mb-20 mt-5 flex flex-col items-center">
+    <div className="container pt-24 mb-12 md:mb-20 mt-5 flex flex-col items-center">
       <div className="w-[96%] md:w-6/12 lg:w-4/12 p-3 md:p-4 flex flex-col items-center border border-gray-400 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-6">
           Create a New Room
@@ -140,6 +152,7 @@ const CreateRoom = () => {
             </label>
             <input
               type="text"
+              name="roomNumber"
               id="roomNumber"
               value={roomNumber}
               onChange={(e) => setRoomNumber(e.target.value)}
@@ -155,6 +168,7 @@ const CreateRoom = () => {
             </label>
             <select
               id="roomType"
+              name="roomType"
               value={roomType}
               onChange={(e) => setRoomType(e.target.value)}
               required
@@ -175,7 +189,9 @@ const CreateRoom = () => {
             </label>
             <input
               type="number"
+              name="price"
               id="price"
+              min={1}
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               required
@@ -190,7 +206,9 @@ const CreateRoom = () => {
             </label>
             <input
               type="number"
+              name="capacity"
               id="capacity"
+              min={1}
               value={capacity}
               onChange={(e) => setCapacity(e.target.value)}
               required
@@ -205,6 +223,7 @@ const CreateRoom = () => {
             </label>
             <input
               type="text"
+              name="amenities"
               id="amenities"
               value={amenities}
               onChange={(e) => setAmenities(e.target.value)}
@@ -220,6 +239,7 @@ const CreateRoom = () => {
             </label>
             <textarea
               id="roomDescription"
+              name="roomDescription"
               value={roomDescription}
               onChange={(e) => setRoomDescription(e.target.value)}
               required
@@ -235,13 +255,15 @@ const CreateRoom = () => {
             </label>
             <input
               type="number"
+              name="discount"
               id="discount"
               value={discount}
+              min="0"
               onChange={(e) => setDiscount(e.target.value)}
-              required
               className="w-full border border-green-400 rounded-md p-2 focus:outline-blue-600"
             />
           </div>
+         
 
           {/* Image Upload */}
           <div className="mb-4">
@@ -250,6 +272,7 @@ const CreateRoom = () => {
             </label>
             <input
               type="file"
+              name="images"
               id="images"
               onChange={handleImageChange}
               multiple

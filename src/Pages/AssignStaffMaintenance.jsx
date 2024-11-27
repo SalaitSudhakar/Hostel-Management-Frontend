@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const AssignStaffMaintenance = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
     return (
-        <div>
+        <div className='pt-24'>
             
         </div>
     );

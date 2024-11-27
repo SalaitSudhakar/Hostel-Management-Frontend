@@ -26,6 +26,7 @@ const EditProfile = () => {
 
   // Fetch profile data from the backend when the component mounts
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchProfile = async () => {
       try {
         const response = await api.get("/resident/profile");
@@ -105,8 +106,10 @@ const EditProfile = () => {
     );
   }
 
+  
+
   return (
-    <div className="container  mb-12 md:mb-20 mt-5 flex flex-col items-center">
+    <div className="container pt-24  mb-12 md:mb-20 mt-5 flex flex-col items-center">
       <div className="w-[96%] md:w-6/12 lg:w-4/12 p-3 md:p-4 flex flex-col items-center border border-gray-400 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-6">Edit Profile</h2>
         {errorMessage && (

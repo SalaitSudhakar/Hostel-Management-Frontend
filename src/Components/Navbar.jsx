@@ -1,71 +1,132 @@
-import React from "react";
-import { RxHamburgerMenu } from "react-icons/rx";
+import React, { useEffect } from "react";
+import { Menu } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { toggleSidebar } from "../Features/SidebarSlice";
 import { useDispatch } from "react-redux";
 import Tooltip from "@mui/material/Tooltip";
+import { Home, LogOut, User, LogIn } from "lucide-react";
+import { jwtDecode } from "jwt-decode";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAuthenticated = !!localStorage.getItem("token");
+
+  const checkTokenValidity = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return false;
+
+    
+    try {
+      const { exp } = jwtDecode(token); // Decode the token
+      const currentTime = Math.floor(Date.now() / 1000); // Get current time in seconds
+      return exp > currentTime; // Check if token is still valid
+    } catch (error) {
+      console.error("Invalid token:", error);
+      return false;
+    }
+  };
+
+  const isAuthenticated = checkTokenValidity();
   const isAdmin = localStorage.getItem("userRole") === "admin";
+
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("userRole");
+    localStorage.removeItem("role");
+    localStorage.removeItem("residentStatus");
     navigate("/");
   };
 
+  useEffect(() => {
+    if (!isAuthenticated) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userRole");
+      localStorage.removeItem("residentStatus");
+    }
+  }, [isAuthenticated, navigate]);
+
+  const navLinks = [
+    {
+      label: "Home",
+      path: "/",
+      icon: <Home className="w-4 h-4 mr-2" />,
+      show: true,
+    },
+    {
+      label: "Admin",
+      path: "/admin",
+      icon: <User className="w-4 h-4 mr-2" />,
+      show: isAdmin,
+    },
+  ];
+
   return (
-    <nav className="w-full bg-white py-4 border-b-2 ">
-      <div className="w-[90%] mx-auto flex justify-between items-center">
-        <h2 className=" text-orange-600 text-xl">
-          <Tooltip title="Home Page Link" arrow>
-            <Link to={"/"} className=" font-bold hover:no-underline">
-              HM Hostel
-            </Link>
-          </Tooltip>
-        </h2>
-
-        <ul className="flex gap-6  items-center justify-center">
-          <li className="hidden md:block hover:text-orange-600 font-semibold">
-            <Link to="/">Home</Link>
-          </li>
-          {isAdmin && (
-            <>
-              <li>
-                <Link to="/admin">Admin</Link>
-              </li>
-            </>
-          )}
-          {isAuthenticated ? (
-            <li>
-              <button
-                onClick={handleLogout}
-                className="font-semibold  transition-all duration-200 delay-75 ease-in-out text-red-600 hover:bg-red-500 hover:text-white py-1 px-2 rounded-md"
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo Section */}
+          <div className="flex items-center">
+            <Tooltip title="Home Page" arrow>
+              <Link
+                to="/"
+                className="flex items-center text-2xl font-bold text-orange-600 hover:text-orange-700 transition-colors"
               >
-                LogOut
-              </button>
-            </li>
-          ) : (
-            <li>
-              <Link to={"/login"} className="font-semibold">
-                Login
+                HM Hostel
               </Link>
-            </li>
-          )}
-
-          <li>
-            <Tooltip title="open sidebar">
-              <button
-                className="hover:text-orange-600 hover:bg-white  mt-2 p-2 border rounded-full bg-orange-600 text-white"
-                onClick={() => dispatch(toggleSidebar())}
-              >
-                <RxHamburgerMenu className="w-4 h-4" />
-              </button>
             </Tooltip>
-          </li>
-        </ul>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="flex gap-5">
+            <div className="flex items-center space-x-6">
+              <div className="hidden md:flex">
+                {navLinks.map(
+                  (link) =>
+                    link.show && (
+                      <Link
+                        key={link.path}
+                        to={link.path}
+                        className="flex items-center text-gray-700 hover:text-orange-600 transition-colors font-medium"
+                      >
+                        {link.icon}
+                        {link.label}
+                      </Link>
+                    )
+                )}
+              </div>
+
+              {/* Authentication Links */}
+              {isAuthenticated ? (
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center text-red-600 hover:text-red-700 transition-colors font-medium"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  className="flex items-center text-gray-700 hover:text-orange-600 transition-colors font-medium"
+                >
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Login
+                </Link>
+              )}
+            </div>
+
+            {/* Mobile Sidebar Toggle */}
+            <div className="flex items-center">
+              <Tooltip title="Open Sidebar" arrow>
+                <button
+                  onClick={() => dispatch(toggleSidebar())}
+                  className=" text-gray-600 hover:text-orange-600 transition-colors p-2 rounded-full hover:bg-orange-50"
+                >
+                  <Menu className="w-6 h-6" />
+                </button>
+              </Tooltip>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
   );

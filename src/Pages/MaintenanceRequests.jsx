@@ -10,6 +10,8 @@ const MaintenanceRequests = () => {
   // Fetch maintenance requests from backend
   useEffect(() => {
     const fetchRequests = async () => {
+      window.scrollTo(0, 0);
+
       try {
         const response = await api.get("/maintenance-requests/get");
         setRequests(response.data);
@@ -30,7 +32,6 @@ const MaintenanceRequests = () => {
       const response = await api.post("/maintenance-requests/resolve", {
         requestId: id,
       });
-
 
       if (response.status === 200) {
         toast.success("Request resolved successfully!");
@@ -56,7 +57,7 @@ const MaintenanceRequests = () => {
   }
 
   return requests.length > 0 ? (
-    <div className="p-6">
+    <div className="p-6 pt-24">
       <h1 className="text-3xl font-semibold text-orange-600 text-center mb-6">
         Maintenance Requests
       </h1>

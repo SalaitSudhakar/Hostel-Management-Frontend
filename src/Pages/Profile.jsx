@@ -46,22 +46,21 @@ const Profile = () => {
   }
 
   return (
-    <div className="w-full bg-white py-6 min-h-[450px]">
+    <div className="w-full pt-8  bg-white py-6 min-h-[450px]">
       <div className="w-[96%] md:w-2/5 mx-auto p-6 border border-gray-400 rounded-md shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-orange-600 text-lg md:text-xl font-bold mb-4 ">
             Profile
           </h2>
 
-        <Tooltip title="Edit" arrow>
-          <Link
-            to="/resident/profile/edit"
-            className=" bg-gray-200 p-1 rounded-full border border-gray-800 hover:bg-orange-600 hover:text-white hover:border-white"
-          >
-            <MdModeEdit size={18} />
-          </Link>
+          <Tooltip title="Edit" arrow>
+            <Link
+              to="/resident/profile/edit"
+              className=" bg-gray-200 p-1 rounded-full border border-gray-800 hover:bg-orange-600 hover:text-white hover:border-white"
+            >
+              <MdModeEdit size={18} />
+            </Link>
           </Tooltip>
-
         </div>
         <div className="space-y-4 text-sm md:text-base">
           <div className="flex items-center justify-between">
@@ -82,6 +81,14 @@ const Profile = () => {
             <span className="font-semibold text-gray-600">Room Number:</span>
             <span className="text-blue-800">
               {resident?.room?.number || "Not Booked"}
+            </span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-gray-600">
+              Resident Status:
+            </span>
+            <span className="text-blue-800">
+              {resident?.status || "Non Resident"}
             </span>
           </div>
           <div className="flex items-center justify-between">

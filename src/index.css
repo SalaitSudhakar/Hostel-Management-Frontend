@@ -2,14 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* If you want to customize spinner or error message further */
 @layer components {
-    .loading-container {
-      @apply flex justify-center items-center min-h-screen bg-gray-100;
-    }
-    
-    .error-message {
-      @apply bg-red-500 text-white p-5 rounded-md;
-    }
+  .loading-container {
+    @apply flex justify-center items-center min-h-screen bg-gray-100;
   }
+
+  .error-message {
+    @apply bg-red-500 text-white p-5 rounded-md;
+  }
+
+  /* If you have a fixed navbar, make sure the body has padding at the top */
+  body {
+    padding-top: 60px; /* Adjust this value to match the height of your navbar */
+  }
+
+  /* Ensure the page scrolls to the top on page load */
+  .main-content {
+    scroll-behavior: smooth; /* Smooth scroll behavior */
+  }
+}
+
+
+/* Change chevron button color */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #ADD367;  /* Your desired color */
+}
+
+/* Optionally, you can change the color when hovering over the chevrons */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: #333;  /* A different color on hover */
+}
