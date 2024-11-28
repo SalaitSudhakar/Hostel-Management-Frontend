@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { toast } from "react-toastify";
-import ClipLoader from "react-spinners/ClipLoader";
 import AmenityCard from "../Components/AmenityCard";
 import HostelFAQ from "../Components/HostelFAQ";
 import api from "../Services/api";
@@ -44,14 +43,8 @@ const RoomDetails = () => {
   // Loading Spinner
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <ClipLoader
-          color="#FF6B6B"
-          loading={loading}
-          size={100}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div className="w-24 h-24 border-[8px] border-t-orange-600 border-r-orange-600 border-b-orange-300 border-l-orange-300 rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -75,6 +68,14 @@ const RoomDetails = () => {
       },
     });
   };
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div className="w-24 h-24 border-[8px] border-t-orange-600 border-r-orange-600 border-b-orange-300 border-l-orange-300 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto">
@@ -102,7 +103,7 @@ const RoomDetails = () => {
               className="w-full h-96 object-cover rounded-xl shadow-lg"
             />
 
-            <div className=" w-4/5  flex space-x-2 justify-center items-center">
+            <div className=" w-4/5 mx-auto  flex space-x-2 justify-center items-center">
               {room.images.map((image, index) => (
                 <button
                   key={index}
@@ -170,7 +171,7 @@ const RoomDetails = () => {
               onClick={handleBookNow}
               className="w-full bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-500 transition-all duration-300 text-xl font-semibold"
             >
-              Book This Room
+              Reserve Now
             </motion.button>
           </motion.div>
         </div>

@@ -33,6 +33,7 @@ const Navbar = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     localStorage.removeItem("residentStatus");
+    localStorage.removeItem('__paypal_storage__')
     navigate("/");
   };
 

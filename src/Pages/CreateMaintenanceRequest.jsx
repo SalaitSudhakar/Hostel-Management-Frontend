@@ -1,41 +1,63 @@
-import { useEffect, useState } from 'react';
-import api from '../Services/api';
-import { toast } from 'react-toastify';
-import { ClipLoader } from 'react-spinners';
+import { useEffect, useState } from "react";
+import api from "../Services/api";
+import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
+import { 
+  FaExclamationCircle, 
+  FaCheckCircle, 
+  FaWrench, 
+  FaTags, 
+  FaHome, 
+  FaClipboardList 
+} from "react-icons/fa";
 
 const CreateMaintenanceRequest = () => {
-  const [issueTitle, setIssueTitle] = useState('');
-  const [issueDescription, setIssueDescription] = useState('');
-  const [priority, setPriority] = useState('Low');
+  const [issueTitle, setIssueTitle] = useState("");
+  const [issueDescription, setIssueDescription] = useState("");
+  const [priority, setPriority] = useState("low");
   const [error, setError] = useState(null);
-  const [room, setRoom] = useState('');
-  const [loading, setLoading] = useState(false)
+  const [roomNumber, setRoomNumber] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
+    setError(null);
 
     const requestData = {
+      issueTitle,
       issueDescription,
-      priority,
-      status,
-      room,
+      priority: priority.toLowerCase(),
+      roomNumber: roomNumber,
     };
 
     try {
-      const response = await api.post('/maintenance-request/create', requestData);
-      toast.success(response.data.message);
+      const response = await api.post(
+        "/maintenance-request/create",
+        requestData
+      );
+      toast.success(
+        <div className="flex items-center">
+          <FaCheckCircle className="mr-2 text-green-500" />
+          {response.data.message}
+        </div>
+      );
       setLoading(false);
 
       // Clear the form fields
-      setIssueDescription('');
-      setPriority('Low');
-      setRoom('');
-     
+      setIssueTitle("");
+      setIssueDescription("");
+      setPriority("low");
+      setRoomNumber("");
     } catch (error) {
-      toast.error(error.response.data.message);
-      setError(error.response.data.message);
-      setLoading(false)
+      setError(error.response?.data?.message || "Something went wrong");
+      toast.error(
+        <div className="flex items-center">
+          <FaExclamationCircle className="mr-2 text-red-500" />
+          {error.response?.data?.message}
+        </div>
+      );
+      setLoading(false);
       console.error(error);
     }
   };
@@ -45,79 +67,113 @@ const CreateMaintenanceRequest = () => {
   }, []);
 
   return (
-    <div className="container pt-24  mb-12 md:mb-20 mt-5 flex flex-col items-center">
-     <div className="w-[96%] md:w-6/12 lg:w-4/12 p-3 md:p-4 flex flex-col items-center border border-gray-400 rounded-lg shadow-lg">
-      <h2 className="text-xl text-center md:text-2xl font-semibold my-6 mb-8 text-orange-600">Create Maintenance Request</h2>
-      {/* error message */}
-      {error && (
-        <div className="w-4/5 md:w-5/12 lg:w-3/12 bg-red-100 p-3 mb-4 text-red-600 rounded">{error}</div>
-      )}
-      <form onSubmit={handleSubmit} className="w-full pb-3"> 
-      <div className="mb-4">
-          <label htmlFor="issueTitle" className="block text-xs md:text-sm font-medium text-gray-700">Issue Title</label>
-          <input
-            type="text"
-            id="issuTitle"
-            className="w-full p-2 mt-1 border border-gray-500 rounded-lg"
-         
-            value={issueTitle}
-            onChange={(e) => setIssueTitle(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="issueDescription" className="block text-sm font-medium text-gray-700">Issue Description</label>
-          <textarea
-            id="issueDescription"
-            className="w-full p-2 mt-1 border border-gray-500 rounded-lg"
-            rows="4"
-            value={issueDescription}
-            onChange={(e) => setIssueDescription(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="priority" className="block text-sm font-medium text-gray-700">Priority</label>
-          <select
-            id="priority"
-            className="w-full p-2 mt-1 border border-gray-500 rounded-lg"
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-            required
-          >
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-          </select>
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="room" className="block text-sm font-medium text-gray-700">Room</label>
-          <input
-            id="room"
-            className="w-full p-2 mt-1 border border-gray-500 rounded-lg"
-            value={room}
-            onChange={(e) => setRoom(e.target.value)}
-            required
-          >
-          </input>
-        </div>
-
-        <button
-              type="submit"
-              disabled={loading}
-              className={`w-full my-4 font-medium ${
-                loading ? "bg-orange-400 cursor-not-allowed" : "bg-orange-600"
-              } text-white p-2 pr-2rounded-md transition-transform transform hover:scale-95 ${
-                !loading ? "hover:bg-orange-500" : ""
-              } duration-100 ease-in-out`}
+    <div className="container pt-24 mb-12 mt-5 flex flex-col items-center bg-gray-50">
+      <div className="w-[96%] md:w-6/12 lg:w-4/12 p-6 border border-orange-200 rounded-xl shadow-2xl bg-white">
+        <h2 className="text-3xl font-bold mb-8 text-center text-orange-600 flex items-center justify-center">
+          <FaWrench className="mr-3 text-orange-500" />
+          Create Maintenance Request
+        </h2>
+        {error && (
+          <div className="bg-red-50 p-4 text-red-700 rounded-lg mb-6 flex items-center border border-red-200">
+            <FaExclamationCircle className="mr-3 text-red-500 text-xl" />
+            {error}
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label
+              htmlFor="issueTitle"
+              className="block text-sm font-medium text-gray-700 mb-2 flex items-center"
             >
-              Create {loading && <ClipLoader size={15} color="#fff" />}
-            </button>
-        
+              <FaClipboardList className="mr-2 text-orange-500" />
+              Issue Title
+            </label>
+            <input
+              type="text"
+              id="issueTitle"
+              className="w-full p-3 mt-1 border border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300 transition-all duration-300"
+              value={issueTitle}
+              onChange={(e) => setIssueTitle(e.target.value)}
+              required
+              placeholder="Enter issue title"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="issueDescription"
+              className=" text-sm font-medium text-gray-700 mb-2 flex items-center"
+            >
+              <FaWrench className="mr-2 text-orange-500" />
+              Issue Description
+            </label>
+            <textarea
+              id="issueDescription"
+              className="w-full p-3 mt-1 border border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300 transition-all duration-300"
+              rows="4"
+              value={issueDescription}
+              onChange={(e) => setIssueDescription(e.target.value)}
+              required
+              placeholder="Describe the maintenance issue in detail"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="priority"
+              className=" text-sm font-medium text-gray-700 mb-2 flex items-center"
+            >
+              <FaTags className="mr-2 text-orange-500" />
+              Priority
+            </label>
+            <select
+              id="priority"
+              className="w-full p-3 mt-1 border border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300 transition-all duration-300"
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+              required
+            >
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <div>
+            <label
+              htmlFor="roomNumber"
+              className=" text-sm font-medium text-gray-700 mb-2 flex items-center"
+            >
+              <FaHome className="mr-2 text-orange-500" />
+              Room Number
+            </label>
+            <input
+              type="text"
+              id="roomNumber"
+              className="w-full p-3 mt-1 border border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300 transition-all duration-300"
+              value={roomNumber}
+              onChange={(e) => setRoomNumber(e.target.value)}
+              required
+              placeholder="Enter room number"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full mt-6 py-3 text-white rounded-lg transition-all duration-300 flex items-center justify-center ${
+              loading
+                ? "bg-orange-400 cursor-not-allowed"
+                : "bg-orange-600 hover:bg-orange-500 hover:shadow-lg"
+            }`}
+          >
+            {loading ? (
+              <ClipLoader size={20} color="#fff" />
+            ) : (
+              <>
+                <FaWrench className="mr-2" />
+                Create Maintenance Request
+              </>
+            )}
+          </button>
         </form>
-        </div>
+      </div>
     </div>
   );
 };

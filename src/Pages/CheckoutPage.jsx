@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
-import api from '../Services/api'; // Adjust the import path as needed
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import api from "../Services/api"; // Adjust the import path as needed
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
@@ -12,30 +12,31 @@ const CheckoutPage = () => {
   const [guests, setGuests] = useState({
     adults: 1,
     children: 0,
-    infantsUnder2: 0
+    infantsUnder2: 0,
   });
   const [totalNights, setTotalNights] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [loading, setLoading] = useState(true);
   const [dateError, setDateError] = useState(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   const { roomNumber } = useParams();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     const fetchDetails = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (!token) {
-          throw new Error('No authentication token found');
+          navigate("/login");
+          return;
         }
 
         // Fetch user details
-        const userResponse = await api.get('/resident/profile');
+        const userResponse = await api.get("/resident/profile");
         setUserData(userResponse.data.data);
 
         if (!roomNumber) {
-          throw new Error('No room details provided');
+          throw new Error("No room details provided");
         }
 
         // Fetch room details
@@ -43,17 +44,17 @@ const CheckoutPage = () => {
         setRoomDetails({
           ...roomResponse.data.data,
           roomNumber,
-          basePrice: roomResponse.data.data.price
+          basePrice: roomResponse.data.data.price,
         });
       } catch (error) {
-        console.error('Error fetching details:', error);
+        console.error("Error fetching details:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchDetails();
-  }, [roomNumber]);
+  }, [navigate, roomNumber]);
 
   useEffect(() => {
     if (checkInDate && checkOutDate && roomDetails) {
@@ -91,43 +92,49 @@ const CheckoutPage = () => {
   };
 
   const handleBookingSuccess = async (orderID) => {
+    if (!validateDates()) return;
+
     try {
       const bookingData = {
         roomId: roomDetails._id,
         checkInDate: checkInDate.toISOString(),
         checkOutDate: checkOutDate.toISOString(),
         guests: guests,
-        paymentId: orderID
+        paymentId: orderID,
       };
 
-      const response = await api.post('/booking/create', bookingData);
+      const response = await api.post("/booking/create", bookingData);
       if (response.data) {
-        navigate('/booking-confirmation', { 
-          state: { 
+        navigate("/booking-confirmation", {
+          state: {
             bookingDetails: response.data,
-            totalPrice: totalPrice
-          } 
+            totalPrice: totalPrice,
+          },
         });
+        setPaymentSuccess(true);
       } else {
-        alert('Booking failed');
+        alert("Booking failed");
       }
     } catch (error) {
-      console.error('Booking error:', error);
-      alert(error.response?.data?.message || 'An error occurred while creating the booking');
+      console.error("Booking error:", error);
+      alert(
+        error.response?.data?.message ||
+          "An error occurred while creating the booking"
+      );
     }
   };
 
   const handleGuestChange = (type, value) => {
-    setGuests(prev => ({
+    setGuests((prev) => ({
       ...prev,
-      [type]: value
+      [type]: value,
     }));
   };
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="loading">Loading...</div>
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div className="w-24 h-24 border-[8px] border-t-orange-600 border-r-orange-600 border-b-orange-300 border-l-orange-300 rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -135,12 +142,14 @@ const CheckoutPage = () => {
   if (!userData || !roomDetails) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="error-message">Unable to load booking details. Please try again.</div>
+        <div className="error-message">
+          Unable to load booking details. Please try again.
+        </div>
       </div>
     );
   }
 
-  const paypalClientId = import.meta.env.VITE_PAYPAL_CLIENT_ID;  // Access the environment variable
+  const paypalClientId = import.meta.env.VITE_PAYPAL_CLIENT_ID; // Access the environment variable
 
   return (
     <div className="max-w-3xl mx-auto p-5">
@@ -176,18 +185,28 @@ const CheckoutPage = () => {
             <div className="flex-1 mr-2">
               <input
                 type="date"
-                value={checkInDate ? checkInDate.toISOString().split('T')[0] : ''}
+                value={
+                  checkInDate ? checkInDate.toISOString().split("T")[0] : ""
+                }
                 onChange={(e) => setCheckInDate(new Date(e.target.value))}
-                min={new Date().toISOString().split('T')[0]}
+                min={new Date().toISOString().split("T")[0]}
                 className="w-full p-2"
               />
             </div>
             <div className="flex-1">
               <input
                 type="date"
-                value={checkOutDate ? checkOutDate.toISOString().split('T')[0] : ''}
+                value={
+                  checkOutDate ? checkOutDate.toISOString().split("T")[0] : ""
+                }
                 onChange={(e) => setCheckOutDate(new Date(e.target.value))}
-                min={checkInDate ? new Date(checkInDate.getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0] : ''}
+                min={
+                  checkInDate
+                    ? new Date(checkInDate.getTime() + 24 * 60 * 60 * 1000)
+                        .toISOString()
+                        .split("T")[0]
+                    : ""
+                }
                 className="w-full p-2"
               />
             </div>
@@ -200,11 +219,15 @@ const CheckoutPage = () => {
                 <div key={type} className="flex-1 mr-2">
                   <select
                     value={guests[type]}
-                    onChange={(e) => handleGuestChange(type, Number(e.target.value))}
+                    onChange={(e) =>
+                      handleGuestChange(type, Number(e.target.value))
+                    }
                     className="w-full p-2"
                   >
                     {[...Array(5)].map((_, i) => (
-                      <option key={i} value={i}>{i}</option>
+                      <option key={i} value={i}>
+                        {i}
+                      </option>
                     ))}
                   </select>
                   <label>{type.charAt(0).toUpperCase() + type.slice(1)}</label>
@@ -216,22 +239,32 @@ const CheckoutPage = () => {
           {dateError && <div className="text-red-500">{dateError}</div>}
 
           <div className="mt-5">
-            <PayPalScriptProvider options={{ 'client-id': paypalClientId }}>
-              <PayPalButtons 
-                style={{ layout: 'vertical' }} 
+            <PayPalScriptProvider options={{ "client-id": paypalClientId }}>
+              <PayPalButtons
+                style={{
+                  layout: "vertical",
+                  color: "blue",
+                  shape: "rect",
+                  label: "pay",
+                }}
                 createOrder={(data, actions) => {
                   return actions.order.create({
-                    purchase_units: [{
-                      amount: {
-                        value: totalPrice
-                      }
-                    }]
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: totalPrice, // Use your total price here
+                        },
+                      },
+                    ],
                   });
                 }}
-                onApprove={(data, actions) => {
-                  return actions.order.capture().then(function(details) {
-                    handleBookingSuccess(details.id);
-                  });
+                onApprove={async (data, actions) => {
+                  const order = await actions.order.capture();
+                  console.log("Order Approved:", order);
+                  handleBookingSuccess(order.id); // Process order after successful payment
+                }}
+                onError={(err) => {
+                  console.error("PayPal Error:", err); // Log any errors
                 }}
               />
             </PayPalScriptProvider>

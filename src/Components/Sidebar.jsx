@@ -80,7 +80,7 @@ const Sidebar = () => {
                 </Link>
               </li>
 
-              {residentStatus === "active" && (
+              {residentStatus === "resident" && (
                 <>
                   <li>
                     <Link
@@ -96,7 +96,7 @@ const Sidebar = () => {
                       to={`/resident/bill`}
                       className=" hover:text-orange-600 transition-all duration-150 ease-in-out flex gap-2"
                     >
-                      <FaMoneyBill size={20} />
+                     Bill
                     </Link>
                   </li>
                 </>
@@ -148,7 +148,7 @@ const Sidebar = () => {
             <>
               <li>
                 <Link
-                  to="/admin"
+                  to="/staff/maintenance"
                   className="hover:text-orange-600 transition-all duration-150 ease-in-out flex gap-2"
                 >
                   <FaTools size={20} /> Maintenance Request

@@ -39,8 +39,8 @@ const Profile = () => {
   /* Page Loading container */
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <BeatLoader color="#9CA3AF" size={15} />
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div className="w-24 h-24 border-[8px] border-t-orange-600 border-r-orange-600 border-b-orange-300 border-l-orange-300 rounded-full animate-spin"></div>
       </div>
     );
   }

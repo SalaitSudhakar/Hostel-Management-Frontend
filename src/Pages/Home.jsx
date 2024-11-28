@@ -43,6 +43,14 @@ const Home = () => {
     });
   };
 
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div className="w-24 h-24 border-[8px] border-t-orange-600 border-r-orange-600 border-b-orange-300 border-l-orange-300 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+  
   return (
     // Intro
     <>

@@ -12,7 +12,7 @@ export const ProtectedRoutes = ({ children, adminOnly = false, staffOnly = false
    if (staffOnly && role !== "staff") {
       return <NotFound />;
    }
-   if (residentOnly && role !== "resident") {
+   if (residentOnly && role !== "resident" ) {
       return <NotFound />;
    }
    return children
