@@ -23,7 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-
 RoomsCarousal.jsx
 .env
 ./src/Pages/AdminDashboard.jsx
+./src/Pages/CheckoutPage.jsx
