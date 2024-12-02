@@ -1,37 +1,34 @@
 import React, { useState, useEffect } from "react";
-import RevenueChart from "../Components/RevenueChart";
-import ExpenseChart from "../Components/ExpenseChart";
-import OccupancyChart from "../Components/OccupancyChart";
-import RevenuePieChart from "../Components/RevenuePieChart";
-import ExpensePieChart from "../Components/ExpensePieChart";
+// import RevenueChart from "../Components/RevenueChart";
+//import OccupancyChart from "../Components/OccupancyChart";
+ 
 import api from "../Services/api";
+import ExpenseBarChart from './../Components/ExpenseBarChart';
 
 const AdminDashboard = () => {
-  const [revenueData, setRevenueData] = useState([]);
+  //const [revenueData, setRevenueData] = useState([]);
   const [expenseData, setExpenseData] = useState([]);
-  const [occupancyData, setOccupancyData] = useState([]);
+  //const [occupancyData, setOccupancyData] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
+
     const fetchData = async () => {
       try {
         // Fetch Revenue Data by category
-        const revenueResponse = await api.get("/revenue/category");
-        setRevenueData(revenueResponse.data);
+        // const revenueResponse = await api.get("/revenue/category");
+        // setRevenueData(revenueResponse.data);
 
         // Fetch Expense Data by category
-        const expenseResponse = await api.get("/expense/expense-by-category", {
-          
-        });
-        setExpenseData(expenseResponse.data);
+        const expenseResponse = await api.get("/expense/expense-by-category?startDate=2024-11-01&endDate=2024-11-30");
+        setExpenseData(expenseResponse.data.data);
 
-        // Fetch Occupancy Data
-        const occupancyResponse = await api.get(
-          "/api/room/occupancy-rate",
-          { startDate: "2024-01-01", endDate: "2024-12-31" },
+        // // Fetch Occupancy Data
+        // const occupancyResponse = await api.get(
+        //   "/api/room/occupancy-rate?startDate=2024-01-01&endDate=2024-12-31" },
        
-        );
-        setOccupancyData(occupancyResponse.data);
+        // );
+        // setOccupancyData(occupancyResponse.data);
 
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -52,33 +49,27 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="dashboard-container">
+    <div className="container mx-auto md:w-3/5 lg:2/5">
       <h1>Admin Dashboard</h1>
 
       <div className="chart-container">
         {/* Revenue Chart */}
-        <div className="chart">
+        {/* <div className="chart">
           <h2>Revenue</h2>
           {revenueData && <RevenueChart data={revenueData} />}
-        </div>
+        </div> */}
 
-        {/* Expense Chart */}
-        <div className="chart">
-          <h2>Expenses</h2>
-          {expenseData && <ExpenseChart data={expenseData} />}
-        </div>
+    
 
         {/* Room Occupancy Rate Chart */}
-        <div className="chart">
+       {/*  <div className="chart">
           <h2>Room Occupancy Rate</h2>
           {occupancyData && <OccupancyChart data={occupancyData} />}
         </div>
-
-        {/* Pie Chart for Revenue by Category */}
-        {revenueData && <RevenuePieChart data={revenueData} />}
-
+ */}
+       
         {/* Pie Chart for Expense by Category */}
-        {expenseData && <ExpensePieChart data={expenseData} />}
+        {expenseData && <ExpenseBarChart data={expenseData} />}
       </div>
     </div>
   );

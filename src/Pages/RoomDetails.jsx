@@ -61,8 +61,9 @@ const RoomDetails = () => {
   };
 
   const handleBookNow = () => {
-    navigate(`/checkout/${roomNumber}`, {
+    navigate(`/reserve-room/${roomNumber}`, {
       state: {
+        roomId: room._id,
         roomNumber: room.roomNumber,
         price: discountedPrice,
       },
@@ -200,6 +201,7 @@ const RoomDetails = () => {
           <HostelFAQ />
         </section>
       </motion.div>
+      
     </div>
   );
 };

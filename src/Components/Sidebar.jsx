@@ -5,14 +5,7 @@ import "../Css/Sidebar.css";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import "../App.css";
-import {
-  FaChartBar,
-  FaCog,
-  FaHome,
-  FaMoneyBill,
-  FaTools,
-  FaUserAlt,
-} from "react-icons/fa";
+import { FaCog, FaHome, FaTools, FaUserAlt } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { CornerRightUp } from "lucide-react";
 
@@ -80,7 +73,7 @@ const Sidebar = () => {
                 </Link>
               </li>
 
-              {residentStatus === "resident" && (
+              {residentStatus === "active" && (
                 <>
                   <li>
                     <Link
@@ -91,14 +84,7 @@ const Sidebar = () => {
                       Maintenance Request
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      to={`/resident/bill`}
-                      className=" hover:text-orange-600 transition-all duration-150 ease-in-out flex gap-2"
-                    >
-                     Bill
-                    </Link>
-                  </li>
+                 
                 </>
               )}
             </>
@@ -126,20 +112,11 @@ const Sidebar = () => {
               </li> */}
               <li>
                 <Link
-                  to="/admin/revenue-expense"
+                  to="/admin/add-expense"
                   className="hover:text-orange-600 transition-all duration-150 ease-in-out flex gap-2"
                 >
                   <FaCog size={20} />
-                  Add Revenue & Expense
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/reports"
-                  className=" hover:text-orange-600 transition-all duration-150 ease-in-out flex gap-2"
-                >
-                  <FaChartBar size={20} />
-                  Reports
+                  Add Expense
                 </Link>
               </li>
             </>

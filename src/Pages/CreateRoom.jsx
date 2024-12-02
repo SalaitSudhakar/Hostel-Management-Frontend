@@ -4,6 +4,22 @@ import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from "react-spinners";
 import api from "../Services/api";
 
+// Lucide Icons
+import { 
+  DoorOpen, 
+  BedDouble, 
+  DollarSign, 
+  Users, 
+  ListChecks, 
+  FileText, 
+  Percent, 
+  Star, 
+  ImagePlus, 
+  PlusCircle 
+} from "lucide-react";
+
+
+
 const CreateRoom = () => {
   // States to store form input values
   const [roomNumber, setRoomNumber] = useState("");
@@ -13,6 +29,7 @@ const CreateRoom = () => {
   const [amenities, setAmenities] = useState("");
   const [roomDescription, setRoomDescription] = useState("");
   const [discount, setDiscount] = useState("");
+  const [stars, setStars] = useState("");
 
   const [images, setImages] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,7 +44,8 @@ const CreateRoom = () => {
     amenities,
     roomDescription,
     discount,
-    images
+    images,
+    stars
   );
 
   // Handle image file change (uploads to the form)
@@ -48,7 +66,8 @@ const CreateRoom = () => {
       !capacity ||
       !amenities ||
       !roomDescription ||
-      !discount 
+      !discount ||
+      !stars
       
       ) {
       console.log(errorMessage);
@@ -75,6 +94,7 @@ const CreateRoom = () => {
     formData.append("amenities", amenities);
     formData.append("roomDescription", roomDescription);
     formData.append("discount", parseInt(discount));
+    formData.append("stars", parseInt(stars))
    
 
     /* Handle images */
@@ -113,6 +133,7 @@ const CreateRoom = () => {
       setAmenities("");
       setRoomDescription("");
       setDiscount("");
+      setStars("")
      
       setImages(null);
     
@@ -129,13 +150,18 @@ const CreateRoom = () => {
   }, []);
 
   return (
-    <div className="container pt-24 mb-12 md:mb-20 mt-5 flex flex-col items-center">
-      <div className="w-[96%] md:w-6/12 lg:w-4/12 p-3 md:p-4 flex flex-col items-center border border-gray-400 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center mb-6">
-          Create a New Room
-        </h2>
+    <div className="container pt-24 mb-12 md:mb-20 mt-5 flex flex-col items-center bg-orange-50">
+      <div className="w-[96%] md:w-6/12 lg:w-4/12 p-6 flex flex-col items-center border-2 border-orange-600 rounded-2xl shadow-2xl bg-white">
+        <div className="flex items-center justify-center mb-6">
+          <PlusCircle className="w-10 h-10 text-orange-600 mr-3" />
+          <h2 className="text-3xl font-bold text-orange-900">
+            Create a New Room
+          </h2>
+        </div>
+
         {errorMessage && (
-          <div className="w-full bg-red-100 p-3 mb-4 text-red-600 rounded">
+          <div className="w-full bg-red-100 p-3 mb-4 text-red-600 rounded-lg flex items-center">
+            <AlertTriangle className="mr-2 text-red-600" />
             {errorMessage}
           </div>
         )}
@@ -147,7 +173,8 @@ const CreateRoom = () => {
         >
           {/* Room Number */}
           <div className="mb-4">
-            <label htmlFor="roomNumber" className="block my-2 font-medium">
+            <label htmlFor="roomNumber" className="flex items-center my-2 font-medium text-orange-800">
+              <DoorOpen className="mr-2 text-orange-600" />
               Room Number
             </label>
             <input
@@ -157,13 +184,14 @@ const CreateRoom = () => {
               value={roomNumber}
               onChange={(e) => setRoomNumber(e.target.value)}
               required
-              className="w-full border border-green-400 rounded-md p-2 focus:outline-blue-600"
+              className="w-full border-2 border-orange-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-300"
             />
           </div>
 
           {/* Room Type */}
           <div className="mb-4">
-            <label htmlFor="roomType" className="block my-2 font-medium">
+            <label htmlFor="roomType" className="flex items-center my-2 font-medium text-orange-800">
+              <BedDouble className="mr-2 text-orange-600" />
               Room Type
             </label>
             <select
@@ -172,7 +200,7 @@ const CreateRoom = () => {
               value={roomType}
               onChange={(e) => setRoomType(e.target.value)}
               required
-              className="w-full border border-green-400 rounded-md p-2 focus:outline-blue-600"
+              className="w-full border-2 border-orange-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-300"
             >
               <option value="">Select Room Type</option>
               <option value="Single">Single</option>
@@ -184,7 +212,8 @@ const CreateRoom = () => {
 
           {/* Price */}
           <div className="mb-4">
-            <label htmlFor="price" className="block my-2 font-medium">
+            <label htmlFor="price" className="flex items-center my-2 font-medium text-orange-800">
+              <DollarSign className="mr-2 text-orange-600" />
               Price
             </label>
             <input
@@ -195,13 +224,14 @@ const CreateRoom = () => {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               required
-              className="w-full border border-green-400 rounded-md p-2 focus:outline-blue-600"
+              className="w-full border-2 border-orange-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-300"
             />
           </div>
 
           {/* Capacity */}
           <div className="mb-4">
-            <label htmlFor="capacity" className="block my-2 font-medium">
+            <label htmlFor="capacity" className="flex items-center my-2 font-medium text-orange-800">
+              <Users className="mr-2 text-orange-600" />
               Capacity
             </label>
             <input
@@ -212,13 +242,14 @@ const CreateRoom = () => {
               value={capacity}
               onChange={(e) => setCapacity(e.target.value)}
               required
-              className="w-full border border-green-400 rounded-md p-2 focus:outline-blue-600"
+              className="w-full border-2 border-orange-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-300"
             />
           </div>
 
           {/* Amenities */}
           <div className="mb-4">
-            <label htmlFor="amenities" className="block my-2 font-medium">
+            <label htmlFor="amenities" className="flex items-center my-2 font-medium text-orange-800">
+              <ListChecks className="mr-2 text-orange-600" />
               Amenities (Comma separated)
             </label>
             <input
@@ -228,13 +259,14 @@ const CreateRoom = () => {
               value={amenities}
               onChange={(e) => setAmenities(e.target.value)}
               required
-              className="w-full border border-green-400 rounded-md p-2 focus:outline-blue-600"
+              className="w-full border-2 border-orange-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-300"
             />
           </div>
 
           {/* Room Description */}
           <div className="mb-4">
-            <label htmlFor="roomDescription" className="block my-2 font-medium">
+            <label htmlFor="roomDescription" className="flex items-center my-2 font-medium text-orange-800">
+              <FileText className="mr-2 text-orange-600" />
               Room Description
             </label>
             <textarea
@@ -244,13 +276,14 @@ const CreateRoom = () => {
               onChange={(e) => setRoomDescription(e.target.value)}
               required
               rows="4"
-              className="w-full border border-green-400 rounded-md p-2 focus:outline-blue-600"
+              className="w-full border-2 border-orange-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-300"
             />
           </div>
 
           {/* Discount */}
           <div className="mb-4">
-            <label htmlFor="discount" className="block my-2 font-medium">
+            <label htmlFor="discount" className="flex items-center my-2 font-medium text-orange-800">
+              <Percent className="mr-2 text-orange-600" />
               Discount (%)
             </label>
             <input
@@ -260,14 +293,31 @@ const CreateRoom = () => {
               value={discount}
               min="0"
               onChange={(e) => setDiscount(e.target.value)}
-              className="w-full border border-green-400 rounded-md p-2 focus:outline-blue-600"
+              className="w-full border-2 border-orange-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-300"
             />
           </div>
-         
+
+          {/* Stars */}
+          <div className="mb-4">
+            <label htmlFor="stars" className="flex items-center my-2 font-medium text-orange-800">
+              <Star className="mr-2 text-orange-600" />
+              Stars /10
+            </label>
+            <input
+              type="number"
+              name="stars"
+              id="stars"
+              value={stars}
+              min="0"
+              onChange={(e) => setStars(e.target.value)}
+              className="w-full border-2 border-orange-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-300"
+            />
+          </div>
 
           {/* Image Upload */}
           <div className="mb-4">
-            <label htmlFor="images" className="block my-2 font-medium">
+            <label htmlFor="images" className="flex items-center my-2 font-medium text-orange-800">
+              <ImagePlus className="mr-2 text-orange-600" />
               Room Images
             </label>
             <input
@@ -276,7 +326,7 @@ const CreateRoom = () => {
               id="images"
               onChange={handleImageChange}
               multiple
-              className="w-full border border-green-400 rounded-md p-2 focus:outline-blue-600"
+              className="w-full border-2 border-orange-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-300"
             />
           </div>
 
@@ -284,15 +334,22 @@ const CreateRoom = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full my-4 font-medium ${
+            className={`w-full mt-6 py-3 font-bold ${
               isSubmitting
                 ? "bg-orange-400 cursor-not-allowed"
-                : "bg-orange-600"
-            } text-white p-2 rounded-md transition-transform transform hover:scale-95 ${
-              !isSubmitting && "hover:bg-orange-500"
-            } duration-100 ease-in-out`}
+                : "bg-orange-600 hover:bg-orange-700"
+            } text-white rounded-lg transition-all duration-300 ease-in-out transform ${
+              !isSubmitting && "hover:scale-105"
+            } flex items-center justify-center space-x-2`}
           >
-            Create {isSubmitting && <ClipLoader size={15} color="#fff" />}
+            {isSubmitting ? (
+              <>
+                <ClipLoader size={20} color="#fff" />
+                <span>Creating...</span>
+              </>
+            ) : (
+              "Create Room"
+            )}
           </button>
         </form>
       </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Star, Bed, IndianRupee } from "lucide-react";
+import { Star, Bed } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation as SwiperNavigation, Pagination } from "swiper/modules";
 import { Link, useNavigate } from "react-router-dom"; // Import Link for routing
@@ -24,7 +24,6 @@ export const Card = ({
   const discountedPrice = price - price * (discount / 100);
   const navigate = useNavigate();
 
-  console.log(id)
   // Determine rating color
   const getRatingColor = () => {
     if (rating >= 8) return "text-green-600";
@@ -34,13 +33,19 @@ export const Card = ({
 
   const handleBookNowClick = () => {
     // Handle book now button click logic here
-    navigate(`/checkout/${roomNumber}`);
+    navigate(`/reserve-room/${roomNumber}`, {
+      state: {
+        roomId: id,
+        roomNumber: roomNumber,
+        price: discountedPrice,
+      },
+    });
   };
   
   return (
     <div
       key={key}
-      className="bg-white pb-3 shadow-lg rounded-xl overflow-hidden hover:scale-105 transition-all duraion-200 ease-in-out hover:shadow-xl mb-3 border border-orange-500"
+      className="relative bg-white pb-3 shadow-lg rounded-xl overflow-hidden hover:scale-105 transition-all duraion-200 ease-in-out hover:shadow-xl mb-3 border border-orange-500"
     >
       {/* Image Carousel Section */}
       <div className="relative h-48 overflow-hidden group">
@@ -70,21 +75,21 @@ export const Card = ({
 
         {/* Discount Badge */}
         {discount > 0 && (
-          <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+          <div className="absolute top-3 right-3 bg-orange-600 text-white px-3 py-1.5 rounded-full text-xs font-bold z-10 shadow-md">
             {discount}% OFF
           </div>
         )}
       </div>
 
       {/* Card Content */}
-      <div className="p-4 space-y-3">
+      <div className="p-4 space-y-4">
         {/* Room Header */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center border-b border-orange-600 pb-3">
           <div>
-            <h3 className="text-xl font-bold text-gray-800">
+            <h3 className="text-xl font-bold text-orange-800">
               Room {roomNumber}
             </h3>
-            <p className="text-gray-500 text-sm">{roomType}</p>
+            <p className="text-amber-950 text-sm">{roomType}</p>
           </div>
 
           {/* Rating */}
@@ -96,14 +101,14 @@ export const Card = ({
 
         {/* Room Details */}
         <div className="flex justify-between items-center md:flex-col md:items-start md:gap-3 space-y-3 flex-wrap">
-          <div className="flex justify-between items-center text-gray-600">
+          <div className="flex justify-between items-center text-gray-700">
             {/* Beds Available */}
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <Bed className="w-5 h-5 mr-2 " />
-                <span className="text-sm md:text-base font-medium"> Beds Available: </span>
+                <span className="text-sm md:text-base font-medium text-amber-800"> Beds Available: </span>
               </div>
-              <div className="pl-2">
+              <div className="pl-2 text-amber-950">
                 <span>{bedsAvailable}</span>
               </div>
             </div>
@@ -112,21 +117,21 @@ export const Card = ({
           {/* Pricing */}
           <div className="flex items-center justify-between flex-wrap">
             <div className="pr-2">
-              <span className="md:text-lg font-medium text-gray-600">Price: </span>
+              <span className="md:text-lg font-medium text-amber-800">Price: </span>
             </div>
             <div className="flex items-center flex-nowrap">
-              <IndianRupee className="w-4 h-4 md:w-5 md:h-5 mr-1 text-green-600" />
+              
               {discount > 0 ? (
                 <div>
-                  <span className="line-through text-sm md:text-base text-gray-400 mr-2">
-                    ${price.toFixed(2)}
+                  <span className="line-through text-sm md:text-base text-amber-400 mr-2">
+                  ₹{price.toFixed(2)}
                   </span>
-                  <span className="text-sm md:text-base font-bold p-1 text-green-700 bg-green-100">
-                    ${discountedPrice.toFixed(2)}
+                  <span className="text-sm md:text-base font-bold p-1 text-amber-700 bg-orange-100">
+                  ₹{discountedPrice.toFixed(2)}
                   </span>
                 </div>
               ) : (
-                <span className="font-bold text-gray-800">${price.toFixed(2)}</span>
+                <span className="font-bold text-gray-800">₹{price.toFixed(2)}</span>
               )}
             </div>
           </div>

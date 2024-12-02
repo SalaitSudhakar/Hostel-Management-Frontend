@@ -67,7 +67,7 @@ const CreateMaintenanceRequest = () => {
   }, []);
 
   return (
-    <div className="container pt-24 mb-12 mt-5 flex flex-col items-center bg-gray-50">
+    <div className="w-full pt-24 pb-12 flex flex-col items-center bg-gradient-to-br from-orange-50 to-orange-100">
       <div className="w-[96%] md:w-6/12 lg:w-4/12 p-6 border border-orange-200 rounded-xl shadow-2xl bg-white">
         <h2 className="text-3xl font-bold mb-8 text-center text-orange-600 flex items-center justify-center">
           <FaWrench className="mr-3 text-orange-500" />

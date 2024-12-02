@@ -19,10 +19,12 @@ import RoomDetails from "./Pages/RoomDetails";
 import ContactPage from "./Pages/ContactPage";
 import TermsAndConditions from "./Pages/TermsAndConditions";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
-import CheckoutPage from "./Pages/CheckoutPage";
 import StaffMaintenanceRequests from "./Pages/StaffMaintenanceRequest";
-import AssignStaffMaintenance from './Pages/AssignStaffMaintenance';
-// import AdminDashboard from "./Pages/AdminDashboard";
+import AssignStaffMaintenance from "./Pages/AssignStaffMaintenance";
+import AdminDashboard from "./Pages/AdminDashboard";
+import ReserveRoomPage from "./Pages/ReserveRoom";
+import PaymentPage from "./Pages/PaymentPage";
+import CreateExpense from "./Pages/createExpense";
 
 const App = () => {
   return (
@@ -71,6 +73,20 @@ const App = () => {
             path="/terms-and-conditions"
             element={<TermsAndConditions />}
           />
+
+          <Route
+            path="/reserve-room/:roomNumber"
+            element={<ReserveRoomPage />}
+          />
+
+          <Route
+            path="/payment"
+            element={
+              <ProtectedRoutes>
+                <PaymentPage />
+              </ProtectedRoutes>
+            }
+          />
           {/* Protected Profile Route */}
           <Route
             path="/resident/profile"
@@ -97,17 +113,17 @@ const App = () => {
               </ProtectedRoutes>
             }
           />
-          <Route path="/checkout/:roomNumber" element={<CheckoutPage />} />
+
           {/* Staff Part */}
-          <Route path="/staff/maintenance"
-           element={
-           <ProtectedRoutes staffOnly={true}>
-              <StaffMaintenanceRequests />
-            </ProtectedRoutes>
+          <Route
+            path="/staff/maintenance"
+            element={
+              <ProtectedRoutes staffOnly={true}>
+                <StaffMaintenanceRequests />
+              </ProtectedRoutes>
             }
           />
-            
-         
+
           {/* Admin Part */}
           <Route
             path="/admin/room/create"
@@ -125,14 +141,22 @@ const App = () => {
               </ProtectedRoutes>
             }
           />
-          {/* <Route
+          <Route
             path="/admin"
             element={
               <ProtectedRoutes adminOnly={true}>
                 <AdminDashboard />
               </ProtectedRoutes>
             }
-          /> */}
+          />
+          <Route
+            path="/admin/add-expense"
+            element={
+              <ProtectedRoutes adminOnly={true}>
+                <CreateExpense />
+              </ProtectedRoutes>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
 

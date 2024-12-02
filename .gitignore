@@ -25,5 +25,3 @@ dist-ssr
 
 RoomsCarousal.jsx
 .env
-./src/Pages/AdminDashboard.jsx
-./src/Pages/CheckoutPage.jsx

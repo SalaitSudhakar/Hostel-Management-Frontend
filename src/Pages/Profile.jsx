@@ -80,7 +80,7 @@ const Profile = () => {
           <div className="flex items-center justify-between">
             <span className="font-semibold text-gray-600">Room Number:</span>
             <span className="text-blue-800">
-              {resident?.room?.number || "Not Booked"}
+              {resident?.room?.roomNumber || "Not Booked"}
             </span>
           </div>
           <div className="flex items-center justify-between">
