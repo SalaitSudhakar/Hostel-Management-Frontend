@@ -25,6 +25,7 @@ import AdminDashboard from "./Pages/AdminDashboard";
 import ReserveRoomPage from "./Pages/ReserveRoom";
 import PaymentPage from "./Pages/PaymentPage";
 import CreateExpense from "./Pages/createExpense";
+import PaymentSuccess from "./Pages/PaymentSuccess";
 
 const App = () => {
   return (
@@ -84,6 +85,14 @@ const App = () => {
             element={
               <ProtectedRoutes>
                 <PaymentPage />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/payment-success"
+            element={
+              <ProtectedRoutes>
+                <PaymentSuccess />
               </ProtectedRoutes>
             }
           />
