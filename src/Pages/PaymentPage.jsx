@@ -67,10 +67,11 @@ const Payment = () => {
 
               console.log("Capture Order Response:", orderData);
               toast.success("Payment successful!");
-              navigate("/");
+              navigate("/payment-success");
             } catch (error) {
               toast.error("An error occurred while capturing the payment.");
               console.error("Capture Order Error:", error);
+              navigate("/payment-failure");
             }
           }}
           onError={() => toast.error("An error occurred during payment.")}
