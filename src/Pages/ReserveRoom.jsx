@@ -161,8 +161,8 @@ const ReserveRoom = () => {
 
   return (
     <div className="max-w-xl mx-auto my-10 bg-white p-8 rounded-2xl shadow-2xl">
-      <h1 className="text-3xl font-bold text-center mb-8 text-orange-600 flex items-center justify-center gap-3">
-        <Hotel className="w-10 h-10" />{" "}
+      <h1 className="text-xl md:text-3xl font-bold text-center mb-8 text-orange-600 flex items-center justify-center gap-3">
+        <Hotel className="w-8 h-8 md:w-10 md:h-10" />{" "}
         {bookingData.bookingId ? "Your Booking Details" : "Reserve Your Room"}
       </h1>
 
@@ -172,20 +172,20 @@ const ReserveRoom = () => {
           <div className="text-gray-600 text-center -mt-4 text-sm">
             You have already booked a room. Below are the details
           </div>
-          <div className="flex items-center gap-4 bg-orange-50 p-4 rounded-lg">
-            <MapPin className="text-orange-600 w-6 h-6" />
+          <div className="flex items-center gap-3  md:gap-4 bg-orange-50 p-2 md:p-4 rounded-lg">
+            <MapPin className="text-orange-600 w-4 h-4 md:w-6 md:h-6" />
             <div>
               <p className="text-gray-700 text-sm">Room ID</p>
-              <p className="text-lg font-semibold text-orange-800">
+              <p className="text-base md:text-lg font-semibold text-orange-800">
                 {bookingData.roomId}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-4 bg-orange-50 p-4 rounded-lg">
-            <Hotel className="text-orange-600 w-6 h-6" />
+          <div className="flex items-center gap-3 md:gap-4 bg-orange-50 p-4 rounded-lg">
+            <Hotel className="text-orange-600 w-4 h-4 md:w-6 md:h-6" />
             <div>
               <p className="text-gray-700 text-sm">Room Number</p>
-              <p className="text-lg font-semibold text-orange-800">
+              <p className="text-base md:text-lg font-semibold text-orange-800">
                 {bookingData.roomNumber}
               </p>
             </div>
@@ -251,27 +251,27 @@ const ReserveRoom = () => {
         </div>
       ) : (
         <div className="space-y-6">
-          <div className="flex items-center gap-4 bg-orange-50 p-4 rounded-lg">
-            <MapPin className="text-orange-600 w-6 h-6" />
+          <div className="flex items-center gap-4 bg-orange-50 p-2 md:p-4 rounded-lg">
+            <MapPin className="text-orange-600 w-4 h-4 md:w-6 md:h-6" />
             <div>
-              <label className="block text-gray-700 text-sm">Room ID</label>
-              <p className="text-lg font-semibold text-orange-800">
+              <label className="block text-gray-700 text-xs md:text-sm">Room ID</label>
+              <p className="text-base md:text-lg font-semibold text-orange-800">
                 {formData.roomId}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 bg-orange-50 p-4 rounded-lg">
+          <div className="flex items-center gap-4 bg-orange-50 p-3 md:p-4 rounded-lg">
             <Hotel className="text-orange-600 w-6 h-6" />
             <div>
-              <label className="block text-gray-700 text-sm">Room Number</label>
+              <label className="block text-gray-700  text-xs md:text-sm">Room Number</label>
               <p className="text-lg font-semibold text-orange-800">{roomNum}</p>
             </div>
           </div>
 
           <div className="space-y-6">
             <div className="relative">
-              <label className=" text-gray-700 mb-2 flex items-center gap-2">
+              <label className=" text-gray-700 mb-2 flex items-center gap-2  text-sm md:text-base">
                 <Calendar className="text-orange-600 w-5 h-5" /> Check-in Date
               </label>
               <div className="relative">
@@ -289,7 +289,7 @@ const ReserveRoom = () => {
             </div>
 
             <div className="relative">
-              <label className=" text-gray-700 mb-2 flex items-center gap-2">
+              <label className=" text-gray-700 mb-2 flex items-center gap-2 text-sm md:text-base">
                 <Calendar className="text-orange-600 w-5 h-5" /> Check-out Date
               </label>
               <div className="relative">
@@ -311,7 +311,7 @@ const ReserveRoom = () => {
             <div className="flex items-center gap-4">
               <User className="text-orange-600 w-6 h-6" />
               <div className="flex-grow">
-                <label className="block text-gray-700 mb-2">Adults</label>
+                <label className="block text-gray-700 mb-2 text-sm md:text-base">Adults</label>
                 <input
                   type="number"
                   name="adults"
@@ -326,7 +326,7 @@ const ReserveRoom = () => {
             <div className="flex items-center gap-4">
               <Users className="text-orange-600 w-6 h-6" />
               <div className="flex-grow">
-                <label className="block text-gray-700 mb-2">Children</label>
+                <label className="block text-gray-700 mb-2 text-sm md:text-base">Children</label>
                 <input
                   type="number"
                   name="children"
@@ -341,7 +341,7 @@ const ReserveRoom = () => {
             <div className="flex items-center gap-4">
               <Baby className="text-orange-600 w-6 h-6" />
               <div className="flex-grow">
-                <label className="block text-gray-700 mb-2">
+                <label className="block text-gray-700 mb-2 text-sm md:text-base">
                   Infants (Under 2)
                 </label>
                 <input

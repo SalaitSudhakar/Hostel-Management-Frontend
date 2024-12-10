@@ -127,7 +127,7 @@ const AdminDashboard = () => {
       </h1>
 
       {/* Expense Section */}
-      <div className="w-[98%] md:w-[80%] lg:w-[70%] xl:w-[60%] max-w-md mb-12 bg-white shadow-lg rounded-xl overflow-hidden border border-orange-100">
+      <div className="w-fullmd:w-[80%] lg:w-[70%] xl:w-[60%] max-w-md mb-12 mx-auto bg-white shadow-lg rounded-xl overflow-hidden border border-orange-100">
         <div className="bg-orange-100 p-4 flex items-center gap-4">
           <CreditCard className="w-6 h-6 text-orange-600" />
           <h2 className="text-lg md:text-2xl font-semibold text-orange-700">
@@ -177,7 +177,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Revenue Section */}
-      <div className=" w-[98%] md:w-[80%] lg:w-[70%] xl:w-[60%] max-w-md mb-12 bg-white shadow-lg rounded-xl overflow-hidden border border-orange-100">
+      <div className=" w-full md:w-[80%] lg:w-[70%] xl:w-[60%] mx-auto max-w-md mb-12 bg-white shadow-lg rounded-xl overflow-hidden border border-orange-100">
         <div className="bg-orange-100 p-4 flex items-center gap-4">
           <TrendingUp className="w-6 h-6 text-orange-600" />
           <h2 className="text-lg md:text-2xl font-semibold text-orange-700">

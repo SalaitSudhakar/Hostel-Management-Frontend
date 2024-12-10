@@ -58,7 +58,7 @@ const Home = () => {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src="../../public/hostel.jpg"
+            src="hostel.jpg"
             alt="HM Hostel Building"
             className="w-full h-full object-cover opacity-70"
           />
