@@ -53,7 +53,7 @@ export default function PaymentResult() {
         <p className="text-gray-600 mb-8">
           Please try again or cancel your booking if needed.
         </p>
-        <div className="flex flex-col md:flex-row space-y-4">
+        <div className="flex flex-col md:flex-row space-y-4 gap-4">
           <button
             onClick={handleRetry}
             className="w-full inline-flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors duration-300"

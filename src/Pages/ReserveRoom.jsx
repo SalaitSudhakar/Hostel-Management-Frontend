@@ -147,7 +147,7 @@ const ReserveRoom = () => {
       if (response.status === 200) {
         toast.success("Booking cancelled successfully.");
         dispatch(resetBookingData());
-        navigate("/rooms");
+        navigate("/");
       }
     } catch (err) {
       toast.error("Failed to cancel booking. Try again later.");
@@ -234,7 +234,7 @@ const ReserveRoom = () => {
           {/* Only show "Pay Now" if paymentStatus is false */}
 
           {!bookingData.paymentStatus && (
-            <div className="flex flex-col md:flex-row justify-between mt-6">
+            <div className="flex flex-col md:flex-row gap-4 justify-between mt-6">
               <button
                 onClick={handleCancelBooking}
                 className="flex items-center gap-2 px-4 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700"
