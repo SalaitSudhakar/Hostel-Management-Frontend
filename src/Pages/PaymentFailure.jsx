@@ -2,7 +2,6 @@ import { XCircle, RefreshCw, LifeBuoy } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setBookingData } from "../Features/BookingSlice";  // Adjust according to your slice path
-import axios from "axios";
 import { toast } from "react-toastify";
 import api from "../Services/api";
 
@@ -54,7 +53,7 @@ export default function PaymentResult() {
         <p className="text-gray-600 mb-8">
           Please try again or cancel your booking if needed.
         </p>
-        <div className="space-y-4">
+        <div className="flex flex-col md:flex-row space-y-4">
           <button
             onClick={handleRetry}
             className="w-full inline-flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors duration-300"

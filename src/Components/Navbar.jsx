@@ -74,7 +74,7 @@ const Navbar = () => {
             <Tooltip title="Home Page" arrow>
               <Link
                 to="/"
-                className="flex items-center text-2xl font-bold text-orange-600 hover:text-orange-700 transition-colors"
+                className="flex items-center text-lg md:text-2xl font-bold text-orange-600 hover:text-orange-700 transition-colors"
               >
                 HM Hostel
               </Link>
