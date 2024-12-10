@@ -25,7 +25,7 @@ const AppDownloadSection = () => {
               }
             >
               <img
-                src="../../Public/app-store.svg"
+                src="../../public/app-store.svg"
                 alt="App Store"
                 className="h-32 rounded-md"
               />
@@ -38,7 +38,7 @@ const AppDownloadSection = () => {
               }
             >
               <img
-                src="../../Public/google-play.svg"
+                src="../../public/google-play.svg"
                 alt="Google Play"
                 className="h-32 rounded-md"
               />
