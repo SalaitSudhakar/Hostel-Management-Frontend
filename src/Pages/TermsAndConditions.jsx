@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { CheckCircle, AlertCircle, FileText, Shield } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { CheckCircle, AlertCircle, FileText, Shield } from "lucide-react";
 
 const TermsAndConditions = () => {
   /* const [isAgreed, setIsAgreed] = useState(false); */
@@ -16,8 +16,8 @@ const TermsAndConditions = () => {
         "Reservations are confirmed only after full payment and receipt of booking confirmation.",
         "Cancellations must be made at least 7 days prior to check-in date for a full refund.",
         "Partial refunds are available between 3-7 days prior to check-in, with a 50% charge.",
-        "No refunds for cancellations less than 3 days before check-in."
-      ]
+        "No refunds for cancellations less than 3 days before check-in.",
+      ],
     },
     {
       title: "Check-in & Check-out",
@@ -26,8 +26,8 @@ const TermsAndConditions = () => {
         "Standard check-in time is 2:00 PM and check-out time is 11:00 AM.",
         "Late check-out may incur additional charges.",
         "Valid government-issued ID is mandatory for check-in.",
-        "Guests under 18 must be accompanied by a guardian."
-      ]
+        "Guests under 18 must be accompanied by a guardian.",
+      ],
     },
     {
       title: "Facility Usage",
@@ -36,8 +36,8 @@ const TermsAndConditions = () => {
         "Shared facilities must be kept clean and used respectfully.",
         "Personal belongings must not obstruct common areas.",
         "Kitchen and laundry facilities have specific operating hours.",
-        "Damage to hostel property will be charged to the guest."
-      ]
+        "Damage to hostel property will be charged to the guest.",
+      ],
     },
     {
       title: "Conduct & Behavior",
@@ -46,8 +46,8 @@ const TermsAndConditions = () => {
         "Quiet hours are observed between 11:00 PM and 7:00 AM.",
         "Alcohol and smoking are prohibited in dormitory and common areas.",
         "Disruptive behavior may result in immediate eviction without refund.",
-        "Respect for other guests' privacy and belongings is mandatory."
-      ]
+        "Respect for other guests' privacy and belongings is mandatory.",
+      ],
     },
     {
       title: "Security & Safety",
@@ -56,9 +56,9 @@ const TermsAndConditions = () => {
         "Lockers are provided; guests are responsible for their valuables.",
         "CCTV surveillance is active in common areas.",
         "Each guest receives one key/access card; replacement costs apply.",
-        "Emergency contact information must be provided during check-in."
-      ]
-    }
+        "Emergency contact information must be provided during check-in.",
+      ],
+    },
   ];
 
   return (
@@ -70,8 +70,8 @@ const TermsAndConditions = () => {
 
         <div className="space-y-8">
           {termsCategories.map((category, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="bg-gray-50 rounded-lg p-6 border border-gray-200 hover:shadow-md transition duration-300"
             >
               <div className="flex items-center mb-4">
@@ -91,15 +91,9 @@ const TermsAndConditions = () => {
           ))}
         </div>
 
-          
-
         <div className="mt-8 text-center text-gray-600 text-sm">
-          <p>
-            Last Updated: November 2024
-          </p>
-          <p className="mt-2">
-            © 2024 Hostel Haven. All Rights Reserved.
-          </p>
+          <p>Last Updated: November 2024</p>
+          <p className="mt-2">© 2024 Hostel Haven. All Rights Reserved.</p>
         </div>
       </div>
     </div>

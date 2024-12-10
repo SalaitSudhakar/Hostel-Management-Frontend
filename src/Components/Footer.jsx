@@ -19,7 +19,7 @@ const Footer = () => {
 
   const handleEmailSubmit = (e) => {
     e.preventDefault();
-    console.log("Subscribed email:", email);
+    
     setEmail("");
     alert("Thank you for subscribing!");
   };
@@ -63,8 +63,8 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-br from-gray-900 to-gray-950 text-white py-12 px-6 md:px-12">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+    <footer className="bg-gradient-to-br from-gray-900 to-gray-950 text-white py-12 px-4 md:px-12">
+      <div className="w-full md:max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
         {/* Brand Section */}
         <div className="space-y-4">
           <Tooltip title="Home Page" arrow>
@@ -149,11 +149,11 @@ const Footer = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="flex-grow p-3 bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="flex-grow p-2 md:p-3 bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
               <button
                 type="submit"
-                className="bg-orange-500 hover:bg-orange-600 text-white px-4 transition-colors"
+                className="bg-orange-500 hover:bg-orange-600 text-white px-2 md:px-4 transition-colors"
               >
                 Subscribe
               </button>

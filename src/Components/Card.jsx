@@ -41,7 +41,7 @@ export const Card = ({
       },
     });
   };
-  
+
   return (
     <div
       key={key}
@@ -106,7 +106,10 @@ export const Card = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <Bed className="w-5 h-5 mr-2 " />
-                <span className="text-sm md:text-base font-medium text-amber-800"> Beds Available: </span>
+                <span className="text-sm md:text-base font-medium text-amber-800">
+                  {" "}
+                  Beds Available:{" "}
+                </span>
               </div>
               <div className="pl-2 text-amber-950">
                 <span>{bedsAvailable}</span>
@@ -117,21 +120,24 @@ export const Card = ({
           {/* Pricing */}
           <div className="flex items-center justify-between flex-wrap">
             <div className="pr-2">
-              <span className="md:text-lg font-medium text-amber-800">Price: </span>
+              <span className="md:text-lg font-medium text-amber-800">
+                Price:{" "}
+              </span>
             </div>
             <div className="flex items-center flex-nowrap">
-              
               {discount > 0 ? (
                 <div>
                   <span className="line-through text-sm md:text-base text-amber-400 mr-2">
-                  ₹{price.toFixed(2)}
+                    ₹{price.toFixed(2)}
                   </span>
                   <span className="text-sm md:text-base font-bold p-1 text-amber-700 bg-orange-100">
-                  ₹{discountedPrice.toFixed(2)}
+                    ₹{discountedPrice.toFixed(2)}
                   </span>
                 </div>
               ) : (
-                <span className="font-bold text-gray-800">₹{price.toFixed(2)}</span>
+                <span className="font-bold text-gray-800">
+                  ₹{price.toFixed(2)}
+                </span>
               )}
             </div>
           </div>
@@ -140,7 +146,10 @@ export const Card = ({
 
       {/* Book Button */}
       <div className="flex justify-center items-center my-4 mx-6">
-        <button onClick={handleBookNowClick} className="w-4/6 md:w-full bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-500 hover:scale-95 transition-all duration-200 ease-in-out">
+        <button
+          onClick={handleBookNowClick}
+          className="w-4/6 md:w-full bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-500 hover:scale-95 transition-all duration-200 ease-in-out"
+        >
           Book Now
         </button>
       </div>

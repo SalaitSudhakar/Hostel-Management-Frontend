@@ -141,7 +141,6 @@ const Register = () => {
     }
   };
 
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -189,7 +188,10 @@ const Register = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name Input */}
             <div className="relative">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Full Name
               </label>
               <div className="relative">
@@ -202,13 +204,19 @@ const Register = () => {
                   onChange={(e) => setName(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent transition duration-300"
                 />
-                <FaUser size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400" />
+                <FaUser
+                  size={20}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400"
+                />
               </div>
             </div>
 
             {/* Email Input */}
             <div className="relative">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Email
               </label>
               <div className="relative">
@@ -221,13 +229,19 @@ const Register = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent transition duration-300"
                 />
-                <MdEmail size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400" />
+                <MdEmail
+                  size={20}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400"
+                />
               </div>
             </div>
 
             {/* Phone Input */}
             <div className="relative">
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Phone
               </label>
               <PhoneInput
@@ -243,7 +257,10 @@ const Register = () => {
 
             {/* Password Input */}
             <div className="relative">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Password
               </label>
               <div className="relative">
@@ -260,7 +277,11 @@ const Register = () => {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
+                  {showPassword ? (
+                    <FaEye size={20} />
+                  ) : (
+                    <FaEyeSlash size={20} />
+                  )}
                 </div>
               </div>
             </div>
@@ -285,11 +306,13 @@ const Register = () => {
                         type="text"
                         placeholder="Emergency contact name"
                         value={emergencyContactName}
-                        onChange={(e) => setEmergencyContactName(e.target.value)}
+                        onChange={(e) =>
+                          setEmergencyContactName(e.target.value)
+                        }
                         className="w-full px-4 py-2 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-400"
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Contact Phone
@@ -321,7 +344,10 @@ const Register = () => {
 
                 {/* Address Section */}
                 <div>
-                  <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="address"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Address
                   </label>
                   <textarea

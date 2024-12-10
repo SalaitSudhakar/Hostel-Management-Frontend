@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const PrivacyPolicy = () => {
   return (
@@ -12,10 +12,20 @@ const PrivacyPolicy = () => {
           1. Information We Collect
         </h2>
         <ul className="list-disc pl-6 space-y-2">
-          <li>Personal Information: Name, email, phone number, identification details</li>
-          <li>Booking Details: Reservation dates, room preferences, special requests</li>
-          <li>Payment Information: Processed through secure payment gateways</li>
-          <li>Technical Data: IP address, device information, browsing behavior</li>
+          <li>
+            Personal Information: Name, email, phone number, identification
+            details
+          </li>
+          <li>
+            Booking Details: Reservation dates, room preferences, special
+            requests
+          </li>
+          <li>
+            Payment Information: Processed through secure payment gateways
+          </li>
+          <li>
+            Technical Data: IP address, device information, browsing behavior
+          </li>
         </ul>
       </div>
 

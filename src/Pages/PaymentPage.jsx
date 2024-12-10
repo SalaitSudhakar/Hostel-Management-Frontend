@@ -1,35 +1,66 @@
-import React, { useMemo, useCallback } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux"; // Import Redux hooks
 import api from "../Services/api";
+import { setPaymentStatus } from "../Features/BookingSlice";
 
 const Payment = () => {
-  const location = useLocation();
-  const paymentData = useMemo(() => location.state, [location.state]); // Memoize state
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const createOrder = useCallback(async () => {
+  // Accessing payment data from the booking slice in Redux
+  const paymentData = useSelector((state) => state.booking);
+
+  const OnCreateOrder = useCallback(async () => {
     try {
       const response = await api.post("/payment/create-order", {
         bookingId: paymentData.bookingId,
       });
-      const { approvalUrl } = response.data;
-      console.log(approvalUrl)
-  
-      if (approvalUrl) {
-        window.location.href = approvalUrl;
-      } else {
-        throw new Error("Approval URL not found.");
-      }
+      const { orderId } = response.data;
+
+      if (!orderId) throw new Error("Order ID not found.");
+      return orderId;
     } catch (error) {
       console.error("Error creating order:", error);
-      const message = error.response?.data?.message || "Failed to create the payment order.";
+      const message =
+        error.response?.data?.message || "Failed to create the payment order.";
       toast.error(message);
     }
   }, [paymentData.bookingId]);
 
-  if (!paymentData) {
+  const OnApproveOrder = async (data) => {
+    try {
+      const { orderID } = data;
+      if (!orderID) throw new Error("Invalid order ID from Paypal!");
+
+      const response = await api.get(
+        `/payment/capture-payment/${orderID}?bookingId=${paymentData.bookingId}`,
+        {
+          "content-Type": "application/json",
+        }
+      );
+      const captureData = await response.data;
+
+      toast.success("Payment successful!");
+      dispatch(setPaymentStatus(true));
+      localStorage.setItem("residentStatus", "active");
+      window.location.href = "/payment-success";
+    } catch (error) {
+      toast.error("An error occurred while capturing the payment.");
+      console.error("Capture Order Error:", error);
+      navigate("/payment-failure");
+    }
+  };
+
+  const OnError = (error) => {
+    console.error("Error while processing payment:", error.message || error);
+    alert("An error occurred during the payment process. Please try again.");
+  };
+
+  // Page content if payment data is not available
+  if (!paymentData || !paymentData.bookingId) {
     return <div>No payment data available.</div>;
   }
 
@@ -49,32 +80,17 @@ const Payment = () => {
         <p>${paymentData.totalPrice}</p>
       </div>
       <PayPalScriptProvider
-        options={{ "client-id": import.meta.env.REACT_APP_PAYPAL_CLIENT_ID || "AXFy4klbr_5JrtSrjW97c2XMIfnK6-nFPo0V3tsAi3tL-8adQwEz5BwfkOCFoN41ssrrhX84APfEzmew",
-          currency: "USD", 
-          environment: "sandbox"
-         }}
+        options={{
+          "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
+          currency: "USD",
+          environment: "sandbox",
+        }}
       >
         <PayPalButtons
           style={{ layout: "vertical", color: "blue", shape: "rect" }}
-          createOrder={createOrder}
-          onApprove={async (data) => {
-            try {
-              const response = await api.post("/payment/capture-payment", {
-                bookingId: paymentData.bookingId,
-                orderId: data.orderID,
-              });
-              const orderData = await response.data;
-
-              console.log("Capture Order Response:", orderData);
-              toast.success("Payment successful!");
-              navigate("/payment-success");
-            } catch (error) {
-              toast.error("An error occurred while capturing the payment.");
-              console.error("Capture Order Error:", error);
-              navigate("/payment-failure");
-            }
-          }}
-          onError={() => toast.error("An error occurred during payment.")}
+          createOrder={OnCreateOrder}
+          onApprove={OnApproveOrder}
+          onError={OnError}
         />
       </PayPalScriptProvider>
     </div>

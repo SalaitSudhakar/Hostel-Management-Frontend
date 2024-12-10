@@ -24,8 +24,7 @@ const ContactPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Implement form submission logic
-    console.log("Form Submitted", formData);
+    
     // Reset form after submission
     setFormData({
       name: "",

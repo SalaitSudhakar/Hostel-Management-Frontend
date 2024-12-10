@@ -1,10 +1,35 @@
-// src/store/store.js
 import { configureStore } from "@reduxjs/toolkit";
-import sidebarReducer from "../Features/SidebarSlice";  // Assuming SidebarSlice is another reducer
+import { persistStore } from "redux-persist";
+import bookingReducer from "../Features/BookingSlice";
+import residentReducer from "../Features/ResidenSlice";
+import sidebarReducer from "../Features/SidebarSlice";
+import { createPersistedReducer } from "./persistConfig";
 
-export const Store = configureStore({
+// Persisted reducers
+const persistedBookingReducer = createPersistedReducer(
+  "booking",
+  bookingReducer
+);
+const persistedResidentReducer = createPersistedReducer(
+  "resident",
+  residentReducer
+);
+
+const store = configureStore({
   reducer: {
-    sidebar: sidebarReducer,    // Handles the sidebar state (if you have one)
-
+    sidebar: sidebarReducer,
+    booking: persistedBookingReducer,
+    resident: persistedResidentReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore redux-persist actions
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+      },
+    }),
 });
+
+const persistor = persistStore(store);
+
+export { store, persistor };

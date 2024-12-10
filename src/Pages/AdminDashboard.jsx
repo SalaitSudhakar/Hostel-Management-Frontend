@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
+import {
+  ChartBar,
+  Download,
+  Calendar,
+  TrendingUp,
+  CreditCard,
+} from "lucide-react";
 import api from "../Services/api";
 import ExpenseBarChart from "../Components/ExpenseBarChart";
 
+import RevenueBarChart from "./../Components/RevenueBarChart";
+
 const AdminDashboard = () => {
   const [expenseData, setExpenseData] = useState([]);
-  /* const [revenueData, setRevenueData] = useState([]);
-  const [occupancyData, setOccupancyData] = useState([]); */
+  const [revenueData, setRevenueData] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   const [expenseStartDate, setExpenseStartDate] = useState("");
@@ -14,29 +23,30 @@ const AdminDashboard = () => {
   const [revenueStartDate, setRevenueStartDate] = useState("");
   const [revenueEndDate, setRevenueEndDate] = useState("");
 
-  const [occupancyStartDate, setOccupancyStartDate] = useState("");
-  const [occupancyEndDate, setOccupancyEndDate] = useState("");
-
   const isInitialLoad = useRef(true);
 
   useEffect(() => {
     if (isInitialLoad.current) {
       const now = new Date();
+
+      // Get the first day of the current month
       const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
         .toISOString()
         .split("T")[0];
+
+      // Get the last day of the current month
       const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
         .toISOString()
         .split("T")[0];
 
-        console.log(startOfMonth, endOfMonth);
 
+      // Setting the values for the dates
       setExpenseStartDate(startOfMonth);
       setExpenseEndDate(endOfMonth);
       setRevenueStartDate(startOfMonth);
       setRevenueEndDate(endOfMonth);
-      setOccupancyStartDate(startOfMonth);
-      setOccupancyEndDate(endOfMonth);
+
+      // Mark the initial load as complete
       isInitialLoad.current = false;
     }
   }, []);
@@ -45,12 +55,9 @@ const AdminDashboard = () => {
     const fetchExpenseData = async () => {
       setLoading(true);
       try {
-        const response = await api.get(`/expense/expense-by-category`, {
-          params: {
-            startDate: expenseStartDate,
-            endDate: expenseEndDate,
-          },
-        });
+        const response = await api.get(
+          `/expense/category?startDate=${expenseStartDate}&endDate=${expenseEndDate}`
+        );
         setExpenseData(response.data.data);
       } catch (error) {
         console.error("Error fetching expense data:", error);
@@ -58,58 +65,47 @@ const AdminDashboard = () => {
         setLoading(false);
       }
     };
-    /* const fetchRevenueData = async () => {
+    const fetchRevenueData = async () => {
       setLoading(true);
       try {
-        const response = await api.get(`/revenue/revenue-by-category`, {
-          params: {
-            startDate: revenueStartDate,
-            endDate: revenueEndDate,
-          },
-        });
-        setRevenueData(response.data.data);
+        const response = await api.get(
+          `/revenue/category?startDate=${revenueStartDate}&endDate=${revenueEndDate}`
+        );
+        setRevenueData(response.data.data || []);
       } catch (error) {
         console.error("Error fetching revenue data:", error);
       } finally {
         setLoading(false);
       }
     };
-    const fetchOccupancyData = async () => {
-      setLoading(true);
-      try {
-        const response = await api.get(`/room-occupancy/date-range`, {
-          params: {
-            startDate: occupancyStartDate,
-            endDate: occupancyEndDate,
-          },
-        });
-        setOccupancyData(response.data.data);
-      } catch (error) {
-        console.error("Error fetching occupancy data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
- */
+
     if (!isInitialLoad.current) {
       fetchExpenseData();
-    /*   fetchRevenueData();
-      fetchOccupancyData(); */
+      fetchRevenueData();
     }
-  }, [expenseStartDate, expenseEndDate, revenueStartDate, revenueEndDate, occupancyStartDate, occupancyEndDate]);
+  }, [expenseStartDate, expenseEndDate, revenueStartDate, revenueEndDate]);
 
+  // Function to handle downloading the report
   const handleDownloadReport = async (reportType, startDate, endDate) => {
     try {
+      // Triggering API call to fetch the report as a blob
       const response = await api.get(`/download-report/${reportType}`, {
         params: { startDate, endDate },
-        responseType: "blob",
+        responseType: "blob", // Ensuring that the response is in binary format (PDF)
       });
 
-      const blob = new Blob([response.data], { type: "application/pdf" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = `${reportType}-report.pdf`;
-      link.click();
+      // Verifying if the response is valid
+      if (response.data) {
+        const blob = new Blob([response.data], { type: "application/pdf" }); // Creating a blob for the PDF
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob); // Generating URL for the blob
+        link.download = `${reportType}-report.pdf`; // Setting the file name dynamically
+        link.click(); // Triggering the download
+      } else {
+        console.error(
+          `Failed to download ${reportType} report. No data received.`
+        );
+      }
     } catch (error) {
       console.error(`Error downloading ${reportType} report:`, error);
     }
@@ -117,118 +113,117 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-gray-100 z-50">
-        <div className="w-16 h-16 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin"></div>
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div className="w-24 h-24 border-[8px] border-t-orange-600 border-r-orange-600 border-b-orange-300 border-l-orange-300 rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-8">Admin Dashboard</h1>
+    <div className=" mx-auto p-6 bg-orange-50 min-h-screen">
+      <h1 className="text-2xl md:text-4xl font-bold text-center mb-10 text-orange-600 flex items-center justify-center gap-4">
+        <ChartBar className="w-10 h-10 text-orange-600" />
+        Admin Dashboard
+      </h1>
 
       {/* Expense Section */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Expense by Category</h2>
-        <div className="flex gap-4 mb-6">
-          <div className="flex flex-col">
-            <label className="mb-2 text-sm font-medium text-gray-700">Start Date:</label>
-            <input
-              type="date"
-              value={expenseStartDate}
-              onChange={(e) => setExpenseStartDate(e.target.value)}
-              className="p-2 border rounded-md"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="mb-2 text-sm font-medium text-gray-700">End Date:</label>
-            <input
-              type="date"
-              value={expenseEndDate}
-              onChange={(e) => setExpenseEndDate(e.target.value)}
-              className="p-2 border rounded-md"
-            />
-          </div>
+      <div className="container mb-12 bg-white shadow-lg rounded-xl overflow-hidden border border-orange-100">
+        <div className="bg-orange-100 p-4 flex items-center gap-4">
+          <CreditCard className="w-6 h-6 text-orange-600" />
+          <h2 className="text-lg md:text-2xl font-semibold text-orange-700">
+            Expense by Category
+          </h2>
         </div>
-        <div className="bg-white p-6 shadow-md rounded-md">
-          {expenseData && <ExpenseBarChart data={expenseData} />}
+        <div className="p-6">
+          <div className="flex flex-col md:flex-row gap-4 mb-6">
+            <div className="flex flex-col flex-1">
+              <label className="mb-2 text-sm font-medium text-orange-700 flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                Start Date:
+              </label>
+              <input
+                type="date"
+                value={expenseStartDate}
+                onChange={(e) => setExpenseStartDate(e.target.value)}
+                className="p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              />
+            </div>
+            <div className="flex flex-col flex-1">
+              <label className="mb-2 text-sm font-medium text-orange-700 flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                End Date:
+              </label>
+              <input
+                type="date"
+                value={expenseEndDate}
+                onChange={(e) => setExpenseEndDate(e.target.value)}
+                className="p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              />
+            </div>
+          </div>
+          <div className="w-full bg-orange-50 md:p-6 shadow-inner rounded-md">
+            {expenseData && <ExpenseBarChart data={expenseData} />}
+          </div>
+          <button
+            onClick={() =>
+              handleDownloadReport("expense", expenseStartDate, expenseEndDate)
+            }
+            className="text-sm md:text-base mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 bg-orange-600 text-white font-medium rounded-md hover:bg-orange-700 transition-colors"
+          >
+            <Download className="w-5 h-5" />
+            Download Expense Report
+          </button>
         </div>
-        <button
-          onClick={() => handleDownloadReport("expense", expenseStartDate, expenseEndDate)}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600"
-        >
-          Download Expense Report
-        </button>
       </div>
 
       {/* Revenue Section */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Revenue by Category</h2>
-        <div className="flex gap-4 mb-6">
-          <div className="flex flex-col">
-            <label className="mb-2 text-sm font-medium text-gray-700">Start Date:</label>
-            <input
-              type="date"
-              value={revenueStartDate}
-              onChange={(e) => setRevenueStartDate(e.target.value)}
-              className="p-2 border rounded-md"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="mb-2 text-sm font-medium text-gray-700">End Date:</label>
-            <input
-              type="date"
-              value={revenueEndDate}
-              onChange={(e) => setRevenueEndDate(e.target.value)}
-              className="p-2 border rounded-md"
-            />
-          </div>
+      <div className="mb-12 bg-white shadow-lg rounded-xl overflow-hidden border border-orange-100">
+        <div className="bg-orange-100 p-4 flex items-center gap-4">
+          <TrendingUp className="w-6 h-6 text-orange-600" />
+          <h2 className="text-lg md:text-2xl font-semibold text-orange-700">
+            Revenue by Category
+          </h2>
         </div>
-        <div className="bg-white p-6 shadow-md rounded-md">
-          {/* Uncomment when RevenueChart component is available */}
-          {/* <RevenueChart data={revenueData} /> */}
-        </div>
-        <button
-          onClick={() => handleDownloadReport("revenue", revenueStartDate, revenueEndDate)}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600"
-        >
-          Download Revenue Report
-        </button>
-      </div>
-
-      {/* Room Occupancy Section */}
-      <div>
-        <h2 className="text-2xl font-semibold mb-4">Room Occupancy Rate</h2>
-        <div className="flex gap-4 mb-6">
-          <div className="flex flex-col">
-            <label className="mb-2 text-sm font-medium text-gray-700">Start Date:</label>
-            <input
-              type="date"
-              value={occupancyStartDate}
-              onChange={(e) => setOccupancyStartDate(e.target.value)}
-              className="p-2 border rounded-md"
-            />
+        <div className="p-6">
+          <div className="flex flex-col md:flex-row gap-4 mb-6">
+            <div className="flex flex-col flex-1">
+              <label className="mb-2 text-sm font-medium text-orange-700 flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                Start Date:
+              </label>
+              <input
+                type="date"
+                value={revenueStartDate}
+                onChange={(e) => setRevenueStartDate(e.target.value)}
+                className="p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              />
+            </div>
+            <div className="flex flex-col flex-1">
+              <label className="mb-2 text-sm font-medium text-orange-700 flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                End Date:
+              </label>
+              <input
+                type="date"
+                value={revenueEndDate}
+                onChange={(e) => setRevenueEndDate(e.target.value)}
+                className="p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              />
+            </div>
           </div>
-          <div className="flex flex-col">
-            <label className="mb-2 text-sm font-medium text-gray-700">End Date:</label>
-            <input
-              type="date"
-              value={occupancyEndDate}
-              onChange={(e) => setOccupancyEndDate(e.target.value)}
-              className="p-2 border rounded-md"
-            />
+          <div className="bg-orange-50 md:p-6 shadow-inner rounded-md">
+            {revenueData && <RevenueBarChart data={revenueData} />}
           </div>
+          <button
+            onClick={() =>
+              handleDownloadReport("revenue", revenueStartDate, revenueEndDate)
+            }
+            className="text-sm md:text-base mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 bg-orange-600 text-white font-medium rounded-md hover:bg-orange-700 transition-colors"
+          >
+            <Download className="w-5 h-5" />
+            Download Revenue Report
+          </button>
         </div>
-        <div className="bg-white p-6 shadow-md rounded-md">
-          {/* Uncomment when OccupancyChart component is available */}
-          {/* <OccupancyChart data={occupancyData} /> */}
-        </div>
-        <button
-          onClick={() => handleDownloadReport("room-occupancy", occupancyStartDate, occupancyEndDate)}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600"
-        >
-          Download Room Occupancy Report
-        </button>
       </div>
     </div>
   );

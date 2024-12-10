@@ -1,23 +1,24 @@
-import { useEffect, useState } from "react";
-import api from "../Services/api";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
-import { 
-  FaExclamationCircle, 
-  FaCheckCircle, 
-  FaWrench, 
-  FaTags, 
-  FaHome, 
-  FaClipboardList 
-} from "react-icons/fa";
+import { FaExclamationCircle, FaCheckCircle, FaWrench, FaTags, FaHome, FaClipboardList } from "react-icons/fa";
+import api from "../Services/api";
 
 const CreateMaintenanceRequest = () => {
   const [issueTitle, setIssueTitle] = useState("");
   const [issueDescription, setIssueDescription] = useState("");
   const [priority, setPriority] = useState("low");
   const [error, setError] = useState(null);
-  const [roomNumber, setRoomNumber] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Directly use useSelector to access roomNumber from the Redux store
+  const roomNumber = useSelector((state) => state.booking.roomNumber);
+
+  // Throw an error if roomNumber is not available
+  if (!roomNumber) {
+    throw new Error("Room number not found.");
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,10 +33,7 @@ const CreateMaintenanceRequest = () => {
     };
 
     try {
-      const response = await api.post(
-        "/maintenance-request/create",
-        requestData
-      );
+      const response = await api.post("/maintenance-request/create", requestData);
       toast.success(
         <div className="flex items-center">
           <FaCheckCircle className="mr-2 text-green-500" />
@@ -48,7 +46,6 @@ const CreateMaintenanceRequest = () => {
       setIssueTitle("");
       setIssueDescription("");
       setPriority("low");
-      setRoomNumber("");
     } catch (error) {
       setError(error.response?.data?.message || "Something went wrong");
       toast.error(
@@ -61,10 +58,6 @@ const CreateMaintenanceRequest = () => {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <div className="w-full pt-24 pb-12 flex flex-col items-center bg-gradient-to-br from-orange-50 to-orange-100">
@@ -81,10 +74,7 @@ const CreateMaintenanceRequest = () => {
         )}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label
-              htmlFor="issueTitle"
-              className="block text-sm font-medium text-gray-700 mb-2 flex items-center"
-            >
+            <label htmlFor="issueTitle" className="text-sm font-medium text-gray-700 mb-2 flex items-center">
               <FaClipboardList className="mr-2 text-orange-500" />
               Issue Title
             </label>
@@ -99,10 +89,7 @@ const CreateMaintenanceRequest = () => {
             />
           </div>
           <div>
-            <label
-              htmlFor="issueDescription"
-              className=" text-sm font-medium text-gray-700 mb-2 flex items-center"
-            >
+            <label htmlFor="issueDescription" className="text-sm font-medium text-gray-700 mb-2 flex items-center">
               <FaWrench className="mr-2 text-orange-500" />
               Issue Description
             </label>
@@ -117,10 +104,7 @@ const CreateMaintenanceRequest = () => {
             />
           </div>
           <div>
-            <label
-              htmlFor="priority"
-              className=" text-sm font-medium text-gray-700 mb-2 flex items-center"
-            >
+            <label htmlFor="priority" className="text-sm font-medium text-gray-700 mb-2 flex items-center">
               <FaTags className="mr-2 text-orange-500" />
               Priority
             </label>
@@ -137,19 +121,16 @@ const CreateMaintenanceRequest = () => {
             </select>
           </div>
           <div>
-            <label
-              htmlFor="roomNumber"
-              className=" text-sm font-medium text-gray-700 mb-2 flex items-center"
-            >
+            <label htmlFor="roomNumber" className="text-sm font-medium text-gray-700 mb-2 flex items-center">
               <FaHome className="mr-2 text-orange-500" />
-              Room Number
+              Room Number (read only)
             </label>
             <input
               type="text"
               id="roomNumber"
               className="w-full p-3 mt-1 border border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300 transition-all duration-300"
               value={roomNumber}
-              onChange={(e) => setRoomNumber(e.target.value)}
+              readOnly
               required
               placeholder="Enter room number"
             />

@@ -7,6 +7,9 @@ import "react-toastify/dist/ReactToastify.css";
 import api from "../Services/api";
 import PasswordInstructions from "../Components/PasswordInstructions";
 import { ClipLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import { setBookingData } from "../Features/BookingSlice";
+import { setResidentDetails } from "../Features/ResidenSlice";
 
 const Login = () => {
   // States
@@ -17,6 +20,10 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // State to track if the profile has already been fetched
+  const [bookingFetched, setBookingFetched] = useState(false);
 
   // validate payload
   const validatePayload = (payload) => {
@@ -47,38 +54,84 @@ const Login = () => {
       toast.error(validationError);
       return;
     }
+
     try {
-      // API call
+      // API call to login
       const response = await api.post("/auth/login", payload);
 
-      // Store token and role
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("role", response.data.role);
-      localStorage.setItem("residentStatus", response.data.residentStatus);
+      if (response.data && response.data.token && response.data.role) {
+        // Store token and role
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("role", response.data.role);
+        localStorage.setItem("residentStatus", response.data.residentStatus);
 
-      console.log(response.data);
+        const residentName = response.data.name;
+        const residentEmail = response.data.email;
+    
+        // Dispatch the resident details to Redux store
+        dispatch(setResidentDetails({ name:residentName, email:residentEmail }));
 
-      toast.success(response.data.message);
+        // Fetch booking data if user is a resident and not already fetched
+        if (response.data.role === "resident" && !bookingFetched) {
+          const bookingResponse = await api.get("/resident/get-booking", {
+            headers: { Authorization: `Bearer ${response.data.token}` },
+          });
 
-      // Redirect to home page
-      navigate("/");
+          if (
+            bookingResponse.data &&
+            bookingResponse.data.data &&
+            bookingResponse.data.data.length > 0
+          ) {
+            const bookingData = bookingResponse.data.data[0]; // Assuming the booking data is an array
 
-      // Reset form
-      setEmail("");
-      setPassword("");
-      setRole("resident");
-      setError(null);
+          
+            // Extract only the required fields
+            const bookingPayload = {
+              roomId: bookingData.room._id,
+              roomNumber: bookingData.room.roomNumber,
+              bookingId: bookingData._id,
+              checkInDate: bookingData.checkInDate,
+              checkOutDate: bookingData.checkOutDate,
+              totalPrice: bookingData.priceBreakdown.totalPrice,
+              paymentStatus: bookingData.payment.status,
+              guests: bookingData.guests || {
+                adults: 1,
+                children: 0,
+                infantsUnder2: 0,
+              },
+            };
+
+            // Dispatch only the required booking data to Redux store
+            dispatch(setBookingData(bookingPayload));
+            setBookingFetched(true); // Mark booking data as fetched
+          }
+        }
+
+        toast.success(response.data.message);
+
+        // Redirect to home page
+        navigate("/");
+
+        // Reset form
+        setEmail("");
+        setPassword("");
+        setRole("resident");
+        setError(null);
+      } else {
+        toast.error("Invalid response data.");
+        setLoading(false);
+      }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Login failed.");
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen pt-24 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen pt-24 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center px-2 md:px-4 py-8">
       <div className="w-full max-w-md bg-white shadow-2xl rounded-2xl overflow-hidden">
-        <div className="p-8">
+        <div className="px-4 py-6 md:p-8">
           {/* Login Header */}
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-orange-600 mb-3">
@@ -95,12 +148,12 @@ const Login = () => {
           )}
 
           {/* Role Selection */}
-          <div className="flex justify-center space-x-4 mb-8">
+          <div className="flex justify-center space-x-3 md:space-x-4 mb-8">
             {["resident", "staff", "admin"].map((userRole) => (
               <button
                 key={userRole}
                 onClick={() => setRole(userRole)}
-                className={`capitalize py-2 px-4 rounded-lg transition-all duration-300 ${
+                className={`text-sm md:text-base capitalize py-2 px-4 rounded-lg transition-all duration-300 ${
                   role === userRole
                     ? "bg-orange-600 text-white shadow-md scale-105"
                     : "bg-gray-200 text-gray-700 hover:bg-orange-100 hover:text-orange-600"

@@ -53,9 +53,9 @@ const ForgotPassword = () => {
   }, []);
   
   return (
-    <div className="min-h-screen pt-24 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen pt-12 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center px-4 px-4 md:py-8">
       <div className="w-full max-w-md bg-white shadow-2xl rounded-2xl overflow-hidden">
-        <div className="p-8">
+        <div className="p-4 md:p-8">
           {/* Header */}
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-orange-600 mb-3">
@@ -83,12 +83,12 @@ const ForgotPassword = () => {
           {!isSuccess && (
             <>
               {/* Role Selection */}
-              <div className="flex justify-center space-x-4 mb-8">
+              <div className="flex justify-center space-x-3 md:space-x-4 mb-8">
                 {["resident", "staff", "admin"].map((userRole) => (
                   <button
                     key={userRole}
                     onClick={() => setRole(userRole)}
-                    className={`capitalize py-2 px-4 rounded-lg transition-all duration-300 ${
+                    className={`capitalize text-sm md:text-base py-2 px-3 md:px-4 rounded-lg transition-all duration-300 ${
                       role === userRole
                         ? "bg-orange-600 text-white shadow-md scale-105"
                         : "bg-gray-200 text-gray-700 hover:bg-orange-100 hover:text-orange-600"

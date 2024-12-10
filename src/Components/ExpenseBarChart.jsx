@@ -10,7 +10,7 @@ const ExpenseBarChart = ({ data }) => {
   const colors = ["#ff7300", "#387908", "#5c6bc0", "#cf6a87", "#36c963", "#7aa3e5"]; // Customize your colors
 
   return (
-    <ResponsiveContainer  height={400} className={"mx-auto my-3"}>
+    <ResponsiveContainer  height={300} className={"mx-auto my-3"}>
       <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="_id" />

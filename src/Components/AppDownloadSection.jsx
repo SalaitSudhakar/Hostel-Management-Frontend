@@ -1,12 +1,10 @@
-import React from 'react';
+import React from "react";
 
 const AppDownloadSection = () => {
   return (
     <div className="relative bg-gradient-to-br from-orange-600 to-amber-500 text-white py-6 overflow-hidden">
       {/* Polygon Background */}
-      <div className="absolute inset-0 z-0">
-        
-      </div>
+      <div className="absolute inset-0 z-0"></div>
 
       <div className="container mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center justify-between">
         {/* Text Content */}
@@ -15,32 +13,35 @@ const AppDownloadSection = () => {
             Download HM Hostel App
           </h2>
           <p className=" md:text-lg text-white/80 mb-4">
-            Experience seamless booking, real-time updates, and exclusive offers right at your fingertips. 
-            Download our app and manage your stay with ease.
+            Experience seamless booking, real-time updates, and exclusive offers
+            right at your fingertips. Download our app and manage your stay with
+            ease.
           </p>
           <div className="flex justify-center items-center md:justify-start gap-4 pl-5">
             {/* App Store Button */}
-            <button 
-              onClick={() => window.open('https://www.apple.com/app-store', '_blank')}
+            <button
+              onClick={() =>
+                window.open("https://www.apple.com/app-store", "_blank")
+              }
             >
-              <img 
-                src="../../Public/app-store.svg" 
-                alt="App Store" 
+              <img
+                src="../../Public/app-store.svg"
+                alt="App Store"
                 className="h-32 rounded-md"
               />
-             
             </button>
 
             {/* Play Store Button */}
-            <button 
-              onClick={() => window.open('https://play.google.com/store', '_blank')}
+            <button
+              onClick={() =>
+                window.open("https://play.google.com/store", "_blank")
+              }
             >
-              <img 
-                src="../../Public/google-play.svg" 
-                alt="Google Play" 
+              <img
+                src="../../Public/google-play.svg"
+                alt="Google Play"
                 className="h-32 rounded-md"
               />
-             
             </button>
           </div>
         </div>

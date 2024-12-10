@@ -23,15 +23,14 @@
   }
 }
 
-
 /* Change chevron button color */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #ADD367;  /* Your desired color */
+  color: #add367;
 }
 
 /* Optionally, you can change the color when hovering over the chevrons */
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  color: #333;  /* A different color on hover */
+  color: #333;
 }

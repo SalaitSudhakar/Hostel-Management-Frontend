@@ -1,4 +1,5 @@
-a, .link{
+a,
+.link {
   @apply hover:text-orange-600;
   @apply transition-all;
   @apply duration-150;

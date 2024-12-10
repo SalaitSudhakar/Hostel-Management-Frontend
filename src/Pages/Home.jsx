@@ -54,7 +54,7 @@ const Home = () => {
   return (
     // Intro
     <>
-      <div className="relative pt-24 md:pt-16 lg:pt-8 min-h-screen flex items-center">
+      <div className="overflow-hidden relative pt-24 md:pt-16 lg:pt-8 min-h-screen flex items-center">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import api from "../Services/api";
-import { BeatLoader } from "react-spinners";
 import { MdModeEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
@@ -23,6 +22,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchUserProfile(); // Fetch profile when the component mounts
+    localStorage.setItem("residentStatus", resident?.status || "Non Resident");
   }, [resident]);
 
   // If error occurs, display error message

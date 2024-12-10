@@ -15,7 +15,8 @@ import {
   Percent, 
   Star, 
   ImagePlus, 
-  PlusCircle 
+  PlusCircle, 
+  AlertTriangle
 } from "lucide-react";
 
 
@@ -34,19 +35,6 @@ const CreateRoom = () => {
   const [images, setImages] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-
-  console.log(
-    roomNumber,
-    roomType,
-    price,
-    capacity,
-    amenities,
-    roomDescription,
-    discount,
-    images,
-    stars
-  );
 
   // Handle image file change (uploads to the form)
   const handleImageChange = (e) => {
@@ -99,7 +87,7 @@ const CreateRoom = () => {
 
     /* Handle images */
     if (images) {
-      console.log(images);
+    
       for (let i = 0; i < images.length; i++) {
         formData.append("images", images[i]);
       }
@@ -150,14 +138,16 @@ const CreateRoom = () => {
   }, []);
 
   return (
-    <div className="container pt-24 mb-12 md:mb-20 mt-5 flex flex-col items-center bg-orange-50">
-      <div className="w-[96%] md:w-6/12 lg:w-4/12 p-6 flex flex-col items-center border-2 border-orange-600 rounded-2xl shadow-2xl bg-white">
+    <div className="w-full pt-20 mb-12 md:mb-20 flex flex-col items-center bg-orange-50">
+      <div className="max-w-md mx-auto w-[96%] md:w-6/12 lg:w-4/12 p-6 flex flex-col items-center border-2 border-orange-600 rounded-2xl shadow-2xl bg-white">
         <div className="flex items-center justify-center mb-6">
-          <PlusCircle className="w-10 h-10 text-orange-600 mr-3" />
-          <h2 className="text-3xl font-bold text-orange-900">
+          <PlusCircle className="w-10 h-10 text-orange-700 mr-3" />
+          <h2 className="text-3xl font-bold text-orange-700">
             Create a New Room
           </h2>
         </div>
+
+        <hr className="border-2 border-dashed border-orange-200 w-2/5 my-3 mb-5"/>
 
         {errorMessage && (
           <div className="w-full bg-red-100 p-3 mb-4 text-red-600 rounded-lg flex items-center">

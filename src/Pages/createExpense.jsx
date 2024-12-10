@@ -94,12 +94,12 @@ const CreateExpense = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 bg-orange-50 min-h-screen">
+    <div className="w-full mx-auto px-4 py-12 bg-orange-50 min-h-screen">
       <div className="max-w-md mx-auto bg-white shadow-2xl rounded-2xl border-2 border-orange-600 overflow-hidden">
-        <div className="bg-orange-600 text-white p-6 text-center">
+        <div className="bg-orange-100 text-orange-700 p-4 md:p-6 text-center">
           <div className="flex items-center justify-center space-x-3">
             <PlusCircle size={32} />
-            <h2 className="text-2xl font-bold">Create New Expense</h2>
+            <h2 className="text-lg md:text-2xl font-bold">Create New Expense</h2>
           </div>
         </div>
 
@@ -189,7 +189,7 @@ const CreateExpense = () => {
 
             <button
               type="submit"
-              className="w-full bg-orange-600 text-white py-3.5 rounded-lg hover:bg-orange-700 active:scale-95 transition duration-300 flex items-center justify-center space-x-2 mt-4 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-orange-600 text-white py-3.5 rounded-lg hover:bg-orange-700 active:scale-95 transition duration-300 flex items-center justify-center space-x-2 mt-4 shadow-md hover:scale-95 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isSubmitting}
             >
               {isSubmitting ? (

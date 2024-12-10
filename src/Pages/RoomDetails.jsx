@@ -201,7 +201,6 @@ const RoomDetails = () => {
           <HostelFAQ />
         </section>
       </motion.div>
-      
     </div>
   );
 };

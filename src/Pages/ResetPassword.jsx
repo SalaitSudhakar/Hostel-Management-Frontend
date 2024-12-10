@@ -78,14 +78,13 @@ const ResetPassword = () => {
     }
   };
 
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
     <div className="min-h-screen pt-24 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-sm bg-white rounded-lg shadow-xl p-6">
+      <div className="w-full max-w-sm bg-white rounded-lg shadow-xl p-4 md:p-6">
         <div className="text-center mb-6">
           <h3 className="text-2xl  text-orange-600 mb-2 font-bold ">
             Reset Your Password
@@ -101,7 +100,7 @@ const ResetPassword = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 mb-5">
           <div>
             <label
               htmlFor="password"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
@@ -30,7 +30,7 @@ import PaymentFailure from "./Pages/PaymentFailure";
 
 const App = () => {
   return (
-    <div>
+    <div className="w-full overflow-hidden">
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -57,7 +57,7 @@ const App = () => {
           <Navbar />
         </>
         <>
-          <Sidebar className="md:hidden" />
+          <Sidebar />
         </>
         <Routes>
           <Route path="/register" element={<Register />} />

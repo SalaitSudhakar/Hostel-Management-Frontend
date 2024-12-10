@@ -71,9 +71,9 @@ const AssignStaff = () => {
 
   return (
     <div className="bg-white shadow-lg rounded-xl p-6">
-      <div className="bg-orange-600 text-white px-6 py-4 flex items-center mb-4">
+      <div className="bg-orange-100  px-6 py-4 flex items-center mb-4">
         <Wrench size={28} className="mr-3" />
-        <h2 className="text-xl font-bold">Assign Staff to Maintenance Requests</h2>
+        <h2 className="text-xl font-bold text-orange-700">Assign Staff to Maintenance Requests</h2>
       </div>
 
       {requests.length === 0 ? (

@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import Tooltip from "@mui/material/Tooltip";
 import { Home, LogOut, User, LogIn } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
+import { resetBookingData } from "../Features/BookingSlice";
+import { resetResidentDetails } from "../Features/ResidenSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -29,11 +31,14 @@ const Navbar = () => {
   const isAuthenticated = checkTokenValidity();
   const isAdmin = localStorage.getItem("userRole") === "admin";
 
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     localStorage.removeItem("residentStatus");
     localStorage.removeItem('__paypal_storage__')
+    dispatch(resetBookingData());
+    dispatch(resetResidentDetails())
     navigate("/");
   };
 
