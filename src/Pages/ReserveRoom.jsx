@@ -130,7 +130,7 @@ const ReserveRoom = () => {
   // Cancel Booking
   const handleCancelBooking = async () => {
     try {
-      const response = await api.delete(
+      const response = await api.patch(
         `/booking/cancel/${id}`
       );
       if (bookingData.paymentStatus) {
