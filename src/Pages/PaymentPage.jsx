@@ -65,9 +65,9 @@ const Payment = () => {
   // Page content if payment data is not available
   if (!paymentData || !paymentData.bookingId) {
     return (
-      <div className="flex min-h-screen justify-center items-center">
+      <div className="flex min-h-screen justify-center items-center bg-gradient-to-br from-orange-50 to-amber-100">
         <AlertTriangle className="mr-2 text-green-500 h-5"/>
-        <h2 className="text-2xl font-bold">No payment data available.</h2>
+        <h2 className="text-lg md:text-xl font-bold text-gray-600">No payment data available.</h2>
       </div>
     );
   }
