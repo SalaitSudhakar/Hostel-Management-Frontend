@@ -126,11 +126,12 @@ const ReserveRoom = () => {
     }
   };
 
+  const id = bookingData.bookingId;
   // Cancel Booking
   const handleCancelBooking = async () => {
     try {
       const response = await api.delete(
-        `/booking/cancel/${bookingData.bookingId}`
+        `/booking/cancel/${id}`
       );
       if (bookingData.paymentStatus) {
         try {
