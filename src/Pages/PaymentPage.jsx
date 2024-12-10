@@ -65,9 +65,21 @@ const Payment = () => {
   // Page content if payment data is not available
   if (!paymentData || !paymentData.bookingId) {
     return (
-      <div className="flex min-h-screen justify-center items-center bg-gradient-to-br from-orange-50 to-amber-100">
-        <AlertTriangle className="mr-2 text-green-500 h-5"/>
-        <h2 className="text-lg md:text-xl font-bold text-gray-600">No payment data available.</h2>
+      <div className="min-h-screen flex justify-center flex-col items-center gap-4 text-gray-600 bg-gradient-to-br from-orange-50 to-amber-100">
+        <div className="flex gap-2 items-center justify-center">
+          <AlertTriangle className="mr-2 text-red-500 h-5" />
+          <h2 className="text-lg md:text-xl font-bold text-gray-600">
+            No payment data available.
+          </h2>
+        </div>
+        <div>
+          <Link
+            to="/"
+            className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Go back to home
+          </Link>
+        </div>
       </div>
     );
   }
@@ -76,7 +88,9 @@ const Payment = () => {
     <div className="min-h-screen flex justify-center flex-col items-center gap-4 text-gray-600 bg-gradient-to-br from-orange-50 to-amber-100">
       <div className="flex gap-2 items-center justify-center">
         <FaCheckCircle className="mr-2 text-green-500 h-5" />
-        <h2 className="text-2xl font-bold">You already have paid for a room</h2>
+        <h2 className="text-lg md:text-2xl font-bold">
+          You already have paid for a room
+        </h2>
       </div>
       <div>
         <Link
