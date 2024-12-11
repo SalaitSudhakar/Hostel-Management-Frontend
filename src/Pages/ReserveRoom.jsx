@@ -130,9 +130,7 @@ const ReserveRoom = () => {
   // Cancel Booking
   const handleCancelBooking = async () => {
     try {
-      const response = await api.patch(
-        `/booking/cancel/${id}`
-      );
+      const response = await api.patch(`/booking/cancel/${id}`);
       if (bookingData.paymentStatus) {
         try {
           const refundResponse = await api.post(
@@ -143,12 +141,9 @@ const ReserveRoom = () => {
           console.log(error);
         }
       }
-
-      if (response.status === 200) {
-        toast.success("Booking cancelled successfully.");
-        dispatch(resetBookingData());
-        navigate("/");
-      }
+      toast.success("Booking cancelled successfully.");
+      dispatch(resetBookingData());
+      navigate("/");
     } catch (err) {
       toast.error("Failed to cancel booking. Try again later.");
       console.log(err);
@@ -255,7 +250,9 @@ const ReserveRoom = () => {
           <div className="flex items-center gap-4 bg-orange-50 p-2 md:p-4 rounded-lg">
             <MapPin className="text-orange-600 w-4 h-4 md:w-6 md:h-6" />
             <div>
-              <label className="block text-gray-700 text-xs md:text-sm">Room ID</label>
+              <label className="block text-gray-700 text-xs md:text-sm">
+                Room ID
+              </label>
               <p className="text-base md:text-lg font-semibold text-orange-800">
                 {formData.roomId}
               </p>
@@ -265,7 +262,9 @@ const ReserveRoom = () => {
           <div className="flex items-center gap-4 bg-orange-50 p-3 md:p-4 rounded-lg">
             <Hotel className="text-orange-600 w-6 h-6" />
             <div>
-              <label className="block text-gray-700  text-xs md:text-sm">Room Number</label>
+              <label className="block text-gray-700  text-xs md:text-sm">
+                Room Number
+              </label>
               <p className="text-lg font-semibold text-orange-800">{roomNum}</p>
             </div>
           </div>
@@ -312,7 +311,9 @@ const ReserveRoom = () => {
             <div className="flex items-center gap-4">
               <User className="text-orange-600 w-6 h-6" />
               <div className="flex-grow">
-                <label className="block text-gray-700 mb-2 text-sm md:text-base">Adults</label>
+                <label className="block text-gray-700 mb-2 text-sm md:text-base">
+                  Adults
+                </label>
                 <input
                   type="number"
                   name="adults"
@@ -327,7 +328,9 @@ const ReserveRoom = () => {
             <div className="flex items-center gap-4">
               <Users className="text-orange-600 w-6 h-6" />
               <div className="flex-grow">
-                <label className="block text-gray-700 mb-2 text-sm md:text-base">Children</label>
+                <label className="block text-gray-700 mb-2 text-sm md:text-base">
+                  Children
+                </label>
                 <input
                   type="number"
                   name="children"

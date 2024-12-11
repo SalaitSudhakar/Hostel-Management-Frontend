@@ -102,7 +102,7 @@ const Payment = () => {
       </div>
     </div>
   ) : (
-    <div className="max-w-lg mx-auto my-10 bg-white p-8 rounded-lg shadow-lg">
+    <div className="max-w-lg mx-auto my-10 bg-white p-8 rounded-lg shadow-lg border-2 border-orange-700">
       <h1 className="text-3xl font-bold text-center mb-6">Payment</h1>
       <div className="mb-4">
         <label className="block text-gray-700">Room Number</label>

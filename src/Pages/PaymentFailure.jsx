@@ -9,8 +9,6 @@ export default function PaymentResult() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const paymentData = useSelector((state) => state.booking);
-
   // Get booking data from Redux store
   const booking = useSelector((state) => state.booking);
 
@@ -23,11 +21,10 @@ export default function PaymentResult() {
   const handleCancelBooking = async () => {
     try {
       const response = await api.patch(`/booking/cancel/${booking.bookingId}`);
-      if (response.status === 200) {
-        toast.success("Booking cancelled successfully!");
-        dispatch(resetBookingData()); // Reset booking data in the Redux store
-        navigate("/"); // Navigate to the homepage after cancellation
-      }
+
+      toast.success("Booking cancelled successfully!");
+      dispatch(resetBookingData()); // Reset booking data in the Redux store
+      navigate("/"); // Navigate to the homepage after cancellation
     } catch (error) {
       console.error("Error canceling booking:", error);
       toast.error("Failed to cancel booking. Please try again later.");
@@ -35,7 +32,7 @@ export default function PaymentResult() {
   };
 
   // Page content if payment data is not available
-  if (!paymentData || !paymentData.bookingId) {
+  if (!booking || !booking.bookingId) {
     return (
       <div className="min-h-screen flex justify-center flex-col items-center gap-4 text-gray-600 bg-gradient-to-br from-orange-50 to-amber-100">
         <div className="flex gap-2 items-center justify-center">
@@ -57,7 +54,7 @@ export default function PaymentResult() {
   }
 
   return (
-    paymentData && (
+    booking && (
       <div className="min-h-screen bg-gradient-to-bl from-orange-50 to-amber-100 flex flex-col items-center justify-center p-4">
         <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full text-center border-2 border-orange-700">
           <XCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
@@ -85,7 +82,7 @@ export default function PaymentResult() {
           <div className="space-y-2 md:space-y-4">
             <button
               onClick={handleRetry}
-              className="w-full inline-flex items-center justify-center bg-orange-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors duration-300"
+              className="w-full inline-flex items-center justify-center bg-orange-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-orange-700 transition-colors duration-300"
             >
               <RefreshCw className="w-5 h-5 mr-2" />
               Try Again
