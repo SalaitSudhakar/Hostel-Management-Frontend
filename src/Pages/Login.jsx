@@ -67,9 +67,11 @@ const Login = () => {
 
         const residentName = response.data.name;
         const residentEmail = response.data.email;
-    
+
         // Dispatch the resident details to Redux store
-        dispatch(setResidentDetails({ name:residentName, email:residentEmail }));
+        dispatch(
+          setResidentDetails({ name: residentName, email: residentEmail })
+        );
 
         // Fetch booking data if user is a resident and not already fetched
         if (response.data.role === "resident" && !bookingFetched) {
@@ -82,28 +84,38 @@ const Login = () => {
             bookingResponse.data.data &&
             bookingResponse.data.data.length > 0
           ) {
-            const bookingData = bookingResponse.data.data[0]; // Assuming the booking data is an array
+            // Filter bookings just in case any cancelled ones pass through
+            const activeBookings = bookingResponse.data.data.filter(
+              (booking) => booking.bookingStatus !== "cancelled"
+            );
 
-          
-            // Extract only the required fields
-            const bookingPayload = {
-              roomId: bookingData.room._id,
-              roomNumber: bookingData.room.roomNumber,
-              bookingId: bookingData._id,
-              checkInDate: bookingData.checkInDate,
-              checkOutDate: bookingData.checkOutDate,
-              totalPrice: bookingData.priceBreakdown.totalPrice,
-              paymentStatus: bookingData.payment.status,
-              guests: bookingData.guests || {
-                adults: 1,
-                children: 0,
-                infantsUnder2: 0,
-              },
-            };
+            if (activeBookings.length > 0) {
+              const bookingData = activeBookings[0]; // Assuming you take the first active booking
 
-            // Dispatch only the required booking data to Redux store
-            dispatch(setBookingData(bookingPayload));
-            setBookingFetched(true); // Mark booking data as fetched
+              // Extract only the required fields
+              const bookingPayload = {
+                roomId: bookingData.room._id,
+                roomNumber: bookingData.room.roomNumber,
+                bookingId: bookingData._id,
+                checkInDate: bookingData.checkInDate,
+                checkOutDate: bookingData.checkOutDate,
+                totalPrice: bookingData.priceBreakdown.totalPrice,
+                paymentStatus: bookingData.payment.status,
+                guests: bookingData.guests || {
+                  adults: 1,
+                  children: 0,
+                  infantsUnder2: 0,
+                },
+              };
+
+              // Dispatch only the required booking data to Redux store
+              dispatch(setBookingData(bookingPayload));
+              setBookingFetched(true); // Mark booking data as fetched
+            } else {
+              console.log("No active bookings found.");
+            }
+          } else {
+            console.log("No bookings found.");
           }
         }
 
