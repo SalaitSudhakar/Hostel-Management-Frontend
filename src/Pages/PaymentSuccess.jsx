@@ -2,7 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FaHome, FaCreditCard, FaUser, FaBuilding } from "react-icons/fa";
-import { AlertTriangle, CheckCircle, Link } from "lucide-react";
+import { AlertTriangle, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();

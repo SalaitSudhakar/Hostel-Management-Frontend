@@ -1,9 +1,10 @@
-import { XCircle, RefreshCw, AlertTriangle, Link } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { XCircle, RefreshCw, AlertTriangle } from "lucide-react";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetBookingData } from "../Features/BookingSlice"; // Adjust according to your slice path
 import { toast } from "react-toastify";
 import api from "../Services/api";
+
 
 export default function PaymentResult() {
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ export default function PaymentResult() {
         <div className="flex gap-2 items-center justify-center">
           <AlertTriangle className="mr-2 text-red-500 h-5" />
           <h2 className="text-lg md:text-xl font-bold text-gray-600">
-            No room is booked or payment successful.
+            No booking data available or already paid.
           </h2>
         </div>
         <div>
