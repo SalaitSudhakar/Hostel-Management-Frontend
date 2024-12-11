@@ -32,7 +32,7 @@ export default function PaymentResult() {
   };
 
   // Page content if payment data is not available
-  if (!booking || !booking.bookingId) {
+  if (!booking || !booking.bookingId || booking.paymentStatus) {
     return (
       <div className="min-h-screen flex justify-center flex-col items-center gap-4 text-gray-600 bg-gradient-to-br from-orange-50 to-amber-100">
         <div className="flex gap-2 items-center justify-center">
