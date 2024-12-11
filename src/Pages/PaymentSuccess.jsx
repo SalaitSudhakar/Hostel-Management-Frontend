@@ -21,13 +21,13 @@ const PaymentSuccess = () => {
   };
 
   // Page content if payment data is not available
-  if (!paymentData || !paymentData.bookingId || paymentData.paymentStatus) {
+  if (!paymentData || !paymentData.bookingId ) {
     return (
       <div className="min-h-screen flex justify-center flex-col items-center gap-4 text-gray-600 bg-gradient-to-br from-orange-50 to-amber-100">
         <div className="flex gap-2 items-center justify-center">
           <AlertTriangle className="mr-2 text-red-500 h-5" />
           <h2 className="text-lg md:text-xl font-bold text-gray-600">
-            No room is booked or payment successful.
+            No room is booked yet.
           </h2>
         </div>
         <div>
