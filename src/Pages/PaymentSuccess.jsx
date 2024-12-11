@@ -26,7 +26,7 @@ const PaymentSuccess = () => {
         <div className="flex gap-2 items-center justify-center">
           <AlertTriangle className="mr-2 text-red-500 h-5" />
           <h2 className="text-lg md:text-xl font-bold text-gray-600">
-            No payment data available or payment successful.
+            No room is booked or payment successful.
           </h2>
         </div>
         <div>
