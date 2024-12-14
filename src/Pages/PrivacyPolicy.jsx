@@ -3,12 +3,12 @@ import React from "react";
 const PrivacyPolicy = () => {
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-8 pb-4 border-b-2 border-blue-500">
+      <h1 className="text-3xl text-orange-500 font-bold text-center mb-8 pb-4 border-b-2 border-orange-500">
         Privacy Policy
       </h1>
 
       <div className="bg-white shadow-md rounded-lg mb-6 p-6">
-        <h2 className="text-2xl font-semibold text-blue-700 mb-4">
+        <h2 className="text-2xl font-semibold text-orange-700 mb-4">
           1. Information We Collect
         </h2>
         <ul className="list-disc pl-6 space-y-2">
@@ -30,7 +30,7 @@ const PrivacyPolicy = () => {
       </div>
 
       <div className="bg-white shadow-md rounded-lg mb-6 p-6">
-        <h2 className="text-2xl font-semibold text-blue-700 mb-4">
+        <h2 className="text-2xl font-semibold text-orange-700 mb-4">
           2. How We Use Your Information
         </h2>
         <ul className="list-disc pl-6 space-y-2">
@@ -43,7 +43,7 @@ const PrivacyPolicy = () => {
       </div>
 
       <div className="bg-white shadow-md rounded-lg mb-6 p-6">
-        <h2 className="text-2xl font-semibold text-blue-700 mb-4">
+        <h2 className="text-2xl font-semibold text-orange-700 mb-4">
           3. Data Sharing and Protection
         </h2>
         <ul className="list-disc pl-6 space-y-2">
@@ -55,7 +55,7 @@ const PrivacyPolicy = () => {
       </div>
 
       <div className="bg-white shadow-md rounded-lg mb-6 p-6">
-        <h2 className="text-2xl font-semibold text-blue-700 mb-4">
+        <h2 className="text-2xl font-semibold text-orange-700 mb-4">
           4. User Rights
         </h2>
         <ul className="list-disc pl-6 space-y-2">
@@ -68,7 +68,7 @@ const PrivacyPolicy = () => {
       </div>
 
       <div className="bg-white shadow-md rounded-lg mb-6 p-6">
-        <h2 className="text-2xl font-semibold text-blue-700 mb-4">
+        <h2 className="text-2xl font-semibold text-orange-700 mb-4">
           5. Contact Information
         </h2>
         <div className="space-y-2">

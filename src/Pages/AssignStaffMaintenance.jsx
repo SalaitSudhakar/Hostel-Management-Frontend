@@ -19,8 +19,8 @@ const AssignStaff = () => {
       const response = await api.get('/maintenance-request/pending');
       setRequests(response.data.data);
     } catch (error) {
-      console.error('Failed to fetch requests', error);
-      toast.error('Error fetching maintenance requests.');
+      toast.error('Failed to fetch requests', error);
+      
     }
   };
 
@@ -29,8 +29,8 @@ const AssignStaff = () => {
       const response = await api.get('/staff/available');
       setStaff(response.data.data);
     } catch (error) {
-      console.error('Failed to fetch available staff', error);
-      toast.error('Error fetching staff data.');
+      toast.error('Failed to fetch available staff', error);
+      
     } finally {
       setLoading(false);
     }
@@ -56,8 +56,7 @@ const AssignStaff = () => {
       fetchRequests();
       fetchAvailableStaff();
     } catch (error) {
-      console.error('Failed to assign staff', error);
-      toast.error('Error assigning staff to request.');
+      toast.error('Error assigning staff to request.', error);
     }
   };
 

@@ -10,6 +10,7 @@ import api from "../Services/api";
 import ExpenseBarChart from "../Components/ExpenseBarChart";
 
 import RevenueBarChart from "./../Components/RevenueBarChart";
+import { toast } from 'react-toastify';
 
 const AdminDashboard = () => {
   const [expenseData, setExpenseData] = useState([]);
@@ -60,7 +61,7 @@ const AdminDashboard = () => {
         );
         setExpenseData(response.data.data);
       } catch (error) {
-        console.error("Error fetching expense data:", error);
+        toast.error("Error fetching expense data:", error);
       } finally {
         setLoading(false);
       }
@@ -73,7 +74,7 @@ const AdminDashboard = () => {
         );
         setRevenueData(response.data.data || []);
       } catch (error) {
-        console.error("Error fetching revenue data:", error);
+        toast.error("Error fetching revenue data:", error);
       } finally {
         setLoading(false);
       }
@@ -102,12 +103,12 @@ const AdminDashboard = () => {
         link.download = `${reportType}-report.pdf`; // Setting the file name dynamically
         link.click(); // Triggering the download
       } else {
-        console.error(
+        toast.error(
           `Failed to download ${reportType} report. No data received.`
         );
       }
     } catch (error) {
-      console.error(`Error downloading ${reportType} report:`, error);
+      toast.error(`Error downloading ${reportType} report:`, error);
     }
   };
 

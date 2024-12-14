@@ -62,9 +62,9 @@ const TermsAndConditions = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
+        <h1 className="text-4xl font-bold text-center text-orange-600 mb-8">
           Terms & Conditions
         </h1>
 
@@ -75,7 +75,7 @@ const TermsAndConditions = () => {
               className="bg-gray-50 rounded-lg p-6 border border-gray-200 hover:shadow-md transition duration-300"
             >
               <div className="flex items-center mb-4">
-                <category.icon className="mr-3 text-blue-600 w-8 h-8" />
+                <category.icon className="mr-3 text-orange-600 w-8 h-8" />
                 <h2 className="text-2xl font-semibold text-gray-900">
                   {category.title}
                 </h2>

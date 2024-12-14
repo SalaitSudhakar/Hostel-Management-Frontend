@@ -5,6 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      'xs': '320px',   // Extra small screens start from 320px
+      'sm': '550px',   // Small screens start from 550px
+      'md': '768px',   // Medium screens start at original default sm breakpoint
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px'
+    },
     extend: {
       animation: {
         fadeIn: "fadeIn 0.5s ease-in-out",

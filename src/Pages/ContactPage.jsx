@@ -35,15 +35,15 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen  bg-gradient-to-tr from-orange-50 to-amber-100 py-12  sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
         {/* Contact Information Section */}
-        <div className="bg-white shadow-lg rounded-lg p-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6">Contact Us</h2>
+        <div className="bg-white shadow-lg rounded-lg p-8 ">
+          <h2 className="text-3xl font-bold text-orange-600 mb-6">Contact Us</h2>
 
           <div className="space-y-6">
             <div className="flex items-center">
-              <MapPin className="text-blue-500 mr-4 w-10 h-10" />
+              <MapPin className="text-orange-500 mr-4 w-10 h-10" />
               <div>
                 <h3 className="font-semibold text-gray-900">Our Location</h3>
                 <p className="text-gray-600">
@@ -54,7 +54,7 @@ const ContactPage = () => {
             </div>
 
             <div className="flex items-center">
-              <Phone className="text-green-500 mr-4 w-10 h-10" />
+              <Phone className="text-orange-500 mr-4 w-10 h-10" />
               <div>
                 <h3 className="font-semibold text-gray-900">Phone</h3>
                 <p className="text-gray-600">+91 98765 43210</p>
@@ -63,7 +63,7 @@ const ContactPage = () => {
             </div>
 
             <div className="flex items-center">
-              <Mail className="text-red-500 mr-4 w-10 h-10" />
+              <Mail className="text-orange-500 mr-4 w-10 h-10" />
               <div>
                 <h3 className="font-semibold text-gray-900">Email</h3>
                 <p className="text-gray-600">contact@hostelhaven.com</p>
@@ -75,7 +75,7 @@ const ContactPage = () => {
 
         {/* Contact Form Section */}
         <div className="bg-white shadow-lg rounded-lg p-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6">
+          <h2 className="text-3xl font-bold text-orange-600 mb-6">
             Send Us a Message
           </h2>
 
@@ -157,7 +157,7 @@ const ContactPage = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition duration-300 flex items-center justify-center"
+              className="w-full bg-orange-600 text-white py-3 rounded-md hover:bg-orange-700 hover:scale-95 transition-all duration-300 flex items-center justify-center"
             >
               <Send className="mr-2" /> Send Message
             </button>

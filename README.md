@@ -16,10 +16,9 @@ This is the frontend part of the Hostel Management System built using React.js a
 
 My Postman API documentation Link 👉 [Click Here](https://documenter.getpostman.com/view/39168834/2sAYHwJPuJ#4f412d8d-029d-412c-82ef-00ec639c3613)
 
-
 ## Tech Stack
 
 - **Frontend Framework**: React.js
 - **Styling**: TailwindCSS
-- **State Management**:  Redux 
+- **State Management**:  Redux
 - **API Integration**: Axios or Fetch for making HTTP requests to the backend

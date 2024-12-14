@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ArrowRight } from "lucide-react";
+import { X, ArrowRight } from "lucide-react";
 import AppDownloadSection from "../Components/AppDownloadSection";
 import Testimonial from "../Components/Testimonial";
 import Typewriter from "typewriter-effect";
@@ -8,21 +8,44 @@ import CardContainer from "../Components/CardContainer";
 import { Card } from "../Components/Card";
 import { toast } from "react-toastify";
 import api from "../Services/api";
-import { ClipLoader } from "react-spinners";
 
 const Home = () => {
   const [availableRooms, setAvailableRooms] = useState([]);
+  const [filteredRooms, setFilteredRooms] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Refs
+  const exploreRoomsRef = useRef(null);
+
+  // Scroll to section function
+  const scrollToSection = () => {
+    exploreRoomsRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
+  // Filter state
+  const [selectedRoomTypes, setSelectedRoomTypes] = useState({
+    single: false,
+    double: false,
+    triple: false,
+    quad: false,
+  });
+
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState({
+    under2000: false,
+    above2000: false,
+  });
+
+  // Fetch rooms
   useEffect(() => {
     const fetchRooms = async () => {
       window.scrollTo(0, 0);
       try {
         const response = await api.get("/room/available-rooms");
-        setAvailableRooms(response.data.data); // Assuming response data contains room information
+        setAvailableRooms(response.data.data);
+        setFilteredRooms(response.data.data);
         setLoading(false);
-      
-        
       } catch (error) {
         console.log(error);
         toast.error(error.response?.data?.message || "An error occurred");
@@ -33,14 +56,50 @@ const Home = () => {
     fetchRooms();
   }, []);
 
+  // Filter rooms logic
+  useEffect(() => {
+    let result = availableRooms;
 
-  const exploreRoomsRef = useRef(null);
+    // Filter by room type
+    const selectedTypes = Object.keys(selectedRoomTypes).filter(
+      (type) => selectedRoomTypes[type]
+    );
+    if (selectedTypes.length > 0) {
+      result = result.filter((room) =>
+        selectedTypes.includes(room.roomType.toLowerCase())
+      );
+    }
 
-  const scrollToSection = () => {
-    // Scroll to the specific section
-    exploreRoomsRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
+    // Filter by price
+    if (selectedPriceRanges.under2000 && !selectedPriceRanges.above2000) {
+      result = result.filter((room) => room.price <= 2000);
+    } else if (
+      selectedPriceRanges.above2000 &&
+      !selectedPriceRanges.under2000
+    ) {
+      result = result.filter((room) => room.price > 2000);
+    } else if (selectedPriceRanges.under2000 && selectedPriceRanges.above2000) {
+      // If both are selected, no price filtering
+      result = result;
+    }
+
+    setFilteredRooms(result);
+  }, [selectedRoomTypes, selectedPriceRanges, availableRooms]);
+
+  // Handle room type filter change
+  const handleRoomTypeChange = (type) => {
+    setSelectedRoomTypes((prev) => ({
+      ...prev,
+      [type]: !prev[type],
+    }));
+  };
+
+  // Handle price range filter change
+  const handlePriceRangeChange = (range) => {
+    setSelectedPriceRanges((prev) => ({
+      ...prev,
+      [range]: !prev[range],
+    }));
   };
 
   if (loading) {
@@ -50,7 +109,7 @@ const Home = () => {
       </div>
     );
   }
-  
+
   return (
     // Intro
     <>
@@ -114,7 +173,7 @@ const Home = () => {
             {/* Call to Action Buttons */}
             <div className="flex space-x-4 md:pt-6">
               <button
-              onClick={scrollToSection}
+                onClick={scrollToSection}
                 className="bg-orange-600 hover:bg-orange-500 text-white 
               px-2 py-2 md:px-6 md:py-3 rounded-lg flex items-center space-x-2 
               transition duration-300 ease-in-out transform hover:scale-105"
@@ -126,7 +185,7 @@ const Home = () => {
               </button>
 
               <button
-              onClick={scrollToSection}
+                onClick={scrollToSection}
                 className="border border-white/50 hover:bg-white/10 
               text-white px-2 py-2md:px-6 md:py-3 rounded-lg 
               transition duration-300 ease-in-out transform hover:scale-105 z-15"
@@ -156,37 +215,14 @@ const Home = () => {
       {/* Popular facilities */}
       <PopularFacilities />
 
-      {/* ROOMS */}
-      <section ref={exploreRoomsRef} id="exploreRooms" className="exploreRooms py-12 bg-gradient-to-tr from-blue-100/50 to-teal-100/50 relative overflow-hidden">
-        {/* Polygon Background */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="100%"
-            height="100%"
-            className="absolute top-0 left-0"
-          >
-            <defs>
-              <pattern
-                id="polygonPattern"
-                patternUnits="userSpaceOnUse"
-                width="100"
-                height="100"
-              >
-                <polygon
-                  points="50,0 100,50 50,100 0,50"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="0.5"
-                  className="text-blue-200/30"
-                />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#polygonPattern)" />
-          </svg>
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
+      {/* Rooms Section */}
+      <section
+        ref={exploreRoomsRef}
+        id="exploreRooms"
+        className="exploreRooms py-12 bg-gradient-to-tr from-blue-100/50 to-teal-100/50 relative overflow-hidden"
+      >
+        <div className="container mx-auto px-4">
+          {/* Header Section */}
           <div className="text-center mb-10">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">
               Available Rooms
@@ -198,35 +234,78 @@ const Home = () => {
             </p>
           </div>
 
-          {loading ? (
-            <div className="flex justify-center items-center py-12">
-              <ClipLoader size={50} color="#FF6B00" />
-            </div>
-          ) : availableRooms.length === 0 ? (
-            <div className="text-center text-gray-600 py-12">
-              No rooms available at the moment
-            </div>
-          ) : (
-            <CardContainer>
-              
-              {availableRooms.map((room) => (
-               
-                <Card
+          {/* Rooms and Filters Container */}
+          <div className="relative flex flex-col md:flex-row min-h-[600px]">
+            <div className="md:w-64 lg:w-72 bg-white/20 backdrop-blur-md rounded-lg shadow-lg p-4 border border-white/30">
+              <h3 className="text-xl font-bold mb-4 md:text-lg">Filters</h3>
 
-                  key={room._id}
-                  id={room._id}
-                  roomNumber={room.roomNumber}
-                  roomType={room.roomType}
-                  price={room.price}
-                  bedsAvailable={room.bedRemaining}
-                  discount={room.discount || 0}
-                  rating={room.rating ||  Number((Math.random() * 5 + 5).toFixed(1))}
-                images={room.images || ["/api/placeholder/400/300"]}
-                />
-                
-              ))}
-            </CardContainer>
-          )}
+              {/* Room Type Filters */}
+              <div className="mb-4">
+                <h4 className="font-semibold mb-2 text-sm">Room Type</h4>
+                {Object.keys(selectedRoomTypes).map((type) => (
+                  <div key={type} className="flex items-center mb-2 text-gray-600">
+                    <input
+                      type="checkbox"
+                      id={type}
+                      checked={selectedRoomTypes[type]}
+                      onChange={() => handleRoomTypeChange(type)}
+                      className="mr-2 h-4 w-4 accent-orange-600"
+                    />
+                    <label htmlFor={type} className="capitalize text-sm">
+                      {type}
+                    </label>
+                  </div>
+                ))}
+              </div>
+
+              {/* Price Range Filters */}
+              <div>
+                <h4 className="font-semibold mb-2 text-sm">Price</h4>
+                {Object.keys(selectedPriceRanges).map((range) => (
+                  <div key={range} className="flex items-center mb-2 text-gray-600">
+                    <input
+                      type="checkbox"
+                      id={range}
+                      checked={selectedPriceRanges[range]}
+                      onChange={() => handlePriceRangeChange(range)}
+                      className="mr-2 h-4 w-4 accent-orange-600"
+                    />
+                    <label htmlFor={range} className="text-sm">
+                      {range === "under2000" ? "Under ₹2000" : "Above ₹2000"}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Rooms Container */}
+            <div className="flex-1 md:pl-4 lg:pl-6">
+              {filteredRooms.length === 0 ? (
+                <div className="text-center text-gray-600 py-12">
+                  No rooms match your current filters
+                </div>
+              ) : (
+                <CardContainer>
+                  {filteredRooms.map((room) => (
+                    <Card
+                      key={room._id}
+                      id={room._id}
+                      roomNumber={room.roomNumber}
+                      roomType={room.roomType}
+                      price={room.price}
+                      bedsAvailable={room.bedRemaining}
+                      discount={room.discount || 0}
+                      rating={
+                        room.rating ||
+                        Number((Math.random() * 5 + 5).toFixed(1))
+                      }
+                      images={room.images || ["/api/placeholder/400/300"]}
+                    />
+                  ))}
+                </CardContainer>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 

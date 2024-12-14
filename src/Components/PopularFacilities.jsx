@@ -31,7 +31,7 @@ const PopularFacilities = () => {
   ];
 
   return (
-    <div className="w-4/5 container mx-auto px-4 py-8">
+    <div className="w-4/5 container mx-auto px-4 py-8 mb-6">
       <h1 className="text-center text-2xl md:text-4xl mb-5 md:mb-8 font-bold text-orange-600">
         Popular Specialities
       </h1>
