@@ -141,7 +141,7 @@ const Footer = () => {
             </h3>
             <form 
               onSubmit={handleEmailSubmit} 
-              className="flex rounded-lg overflow-hidden shadow-lg"
+              className="flex md:flex-col rounded-lg md:rounded-none overflow-hidden shadow-lg"
             >
               <input
                 type="email"
@@ -153,7 +153,7 @@ const Footer = () => {
               />
               <button
                 type="submit"
-                className="bg-orange-500 hover:bg-orange-600 text-white px-2 md:px-4 transition-colors"
+                className="bg-orange-500 hover:bg-orange-600 text-white px-2 md:px-4 md:py-2 md:mt-2 transition-colors"
               >
                 Subscribe
               </button>
