@@ -219,15 +219,15 @@ const Home = () => {
       <section
         ref={exploreRoomsRef}
         id="exploreRooms"
-        className="exploreRooms py-12 bg-gradient-to-tr from-blue-100/50 to-teal-100/50 relative overflow-hidden"
+        className="exploreRooms py-12 bg-gradient-to-b from-blue-100 to-indigo-200 relative  overflow-hidden"
       >
         <div className="container mx-auto px-4">
           {/* Header Section */}
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+          <div className="text-center  mb-10">
+            <h2 className="text-3xl font-bold  mb-4">
               Available Rooms
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className=" max-w-2xl mx-auto ">
               Discover our comfortable and affordable rooms tailored to meet
               your needs. From budget-friendly options to premium
               accommodations, we have something for everyone.
@@ -251,7 +251,7 @@ const Home = () => {
                       onChange={() => handleRoomTypeChange(type)}
                       className="mr-2 h-4 w-4 accent-orange-600"
                     />
-                    <label htmlFor={type} className="capitalize text-sm">
+                    <label htmlFor={type} className="capitalize text-sm text-gray-900">
                       {type}
                     </label>
                   </div>
@@ -262,7 +262,7 @@ const Home = () => {
               <div>
                 <h4 className="font-semibold mb-2 text-sm">Price</h4>
                 {Object.keys(selectedPriceRanges).map((range) => (
-                  <div key={range} className="flex items-center mb-2 text-gray-600">
+                  <div key={range} className="flex items-center mb-2 ">
                     <input
                       type="checkbox"
                       id={range}
@@ -270,7 +270,7 @@ const Home = () => {
                       onChange={() => handlePriceRangeChange(range)}
                       className="mr-2 h-4 w-4 accent-orange-600"
                     />
-                    <label htmlFor={range} className="text-sm">
+                    <label htmlFor={range} className="text-sm text-zinc-200">
                       {range === "under2000" ? "Under ₹2000" : "Above ₹2000"}
                     </label>
                   </div>
