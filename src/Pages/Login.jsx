@@ -174,6 +174,22 @@ const Login = () => {
                 {userRole}
               </button>
             ))}
+
+            {role === "admin" && (
+              <div className="bg-orange-50 border border-orange-200 p-4 rounded-lg mb-6">
+                <h3 className="text-orange-600 font-semibold mb-2">
+                  Admin Credentials
+                </h3>
+                <p className="text-sm text-gray-700">
+                  <p>Email: </p>
+                  <p className="text-gray-500">admin@gmail.com</p>
+                </p>
+                <p className="text-sm text-gray-700">
+                  <p>password: </p>
+                  <p className="text-gray-500">admin/123</p>
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Login Form */}
