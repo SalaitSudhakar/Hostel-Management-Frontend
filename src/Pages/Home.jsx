@@ -8,6 +8,7 @@ import CardContainer from "../Components/CardContainer";
 import { Card } from "../Components/Card";
 import { toast } from "react-toastify";
 import api from "../Services/api";
+import "../index.css";
 
 const Home = () => {
   const [availableRooms, setAvailableRooms] = useState([]);
@@ -130,7 +131,7 @@ const Home = () => {
           <div className="max-w-2xl text-white space-y-6">
             {/* Welcoming Headline */}
             <div className="space-y-3">
-              <h1 className="text-3xl md:text-5xl font-bold leading-tight">
+              <h1 className=" text-3xl md:text-5xl font-bold leading-tight">
                 <Typewriter
                   onInit={(typewriter) => {
                     typewriter
@@ -143,6 +144,7 @@ const Home = () => {
                     loop: false, // Ensures the effect runs only once
                     delay: 80, // Typing speed
                   }}
+                  
                 />
               </h1>
               <h2 className="tex-lg md:text-2xl text-white/90">
@@ -186,7 +188,7 @@ const Home = () => {
 
               <button
                 onClick={scrollToSection}
-                className="border border-white/50 hover:bg-white/10 
+                className="animate-bounce delay-100  border border-white/50 hover:bg-white/10 
               text-white px-2 py-2md:px-6 md:py-3 rounded-lg 
               transition duration-300 ease-in-out transform hover:scale-105 z-15"
               >
@@ -270,7 +272,7 @@ const Home = () => {
                       onChange={() => handlePriceRangeChange(range)}
                       className="mr-2 h-4 w-4 accent-orange-600"
                     />
-                    <label htmlFor={range} className="text-sm text-zinc-200">
+                    <label htmlFor={range} className="text-sm text-gray-950">
                       {range === "under2000" ? "Under ₹2000" : "Above ₹2000"}
                     </label>
                   </div>
