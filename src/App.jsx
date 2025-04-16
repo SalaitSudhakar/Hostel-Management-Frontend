@@ -144,14 +144,6 @@ const App = () => {
 
           {/* Admin Part */}
           <Route
-            path="/admin/room/create"
-            element={
-              <ProtectedRoutes adminOnly={true}>
-                <CreateRoom />
-              </ProtectedRoutes>
-            }
-          />
-          <Route
             path="/admin/maintenance/assign-staff"
             element={
               <ProtectedRoutes adminOnly={true}>
