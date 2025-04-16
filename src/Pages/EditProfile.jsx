@@ -103,7 +103,7 @@ const EditProfile = () => {
   }
 
   return (
-    <div className="container pt-24 mb-12 md:mb-20 mt-5 flex flex-col items-center bg-gray-50">
+    <div className="container mx-auto pt-24 mb-12 md:mb-20 mt-5 flex flex-col items-center bg-gray-50">
       <div className="w-[96%] md:w-6/12 lg:w-4/12 p-6 flex flex-col items-center border border-orange-200 rounded-xl shadow-2xl bg-white">
         <h2 className="text-3xl font-bold text-center mb-6 text-orange-600 flex items-center">
           <FaAddressBook className="mr-3 text-orange-500" />

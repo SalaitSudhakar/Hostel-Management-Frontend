@@ -49,7 +49,7 @@ const Payment = () => {
       toast.success("Payment successful!");
       dispatch(setPaymentStatus(true));
       localStorage.setItem("residentStatus", "active");
-      window.location.href = "/payment-success";
+      navigate("/payment-success")
     } catch (error) {
       toast.error("An error occurred while capturing the payment.");
       console.error("Capture Order Error:", error);
