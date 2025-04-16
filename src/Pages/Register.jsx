@@ -169,7 +169,7 @@ const Register = () => {
 
           {/* Role Selection */}
           <div className="flex justify-center space-x-4 mb-6">
-            {["resident", "staff", "admin"].map((userRole) => (
+            {["resident", "staff"].map((userRole) => (
               <button
                 key={userRole}
                 onClick={() => setRole(userRole)}
