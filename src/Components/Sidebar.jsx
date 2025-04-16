@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";  // Import useNavigate
 import { IoClose } from "react-icons/io5";
 import { FaHome, FaUserAlt, FaTools, FaCog } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
-import { CornerRightUp, UserPlus } from "lucide-react";
+import { UserPlus } from "lucide-react";
 import "../Css/Sidebar.css"
 
 const Sidebar = () => {
@@ -89,15 +89,6 @@ const Sidebar = () => {
                   onClick={() => handleLinkClick("/admin")}
                 >
                   <MdDashboard size={20} /> Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/room/create"
-                  className="hover:text-orange-600 transition-all duration-150 ease-in-out flex gap-2"
-                  onClick={() => handleLinkClick("/admin/room/create")}
-                >
-                  <CornerRightUp size={20} /> Create Room
                 </Link>
               </li>
               <li>
