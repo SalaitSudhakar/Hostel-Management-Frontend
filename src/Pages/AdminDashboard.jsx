@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   ChartBar,
-  Download,
   Calendar,
   TrendingUp,
   CreditCard,
@@ -86,32 +85,6 @@ const AdminDashboard = () => {
     }
   }, [expenseStartDate, expenseEndDate, revenueStartDate, revenueEndDate]);
 
-  // Function to handle downloading the report
-  const handleDownloadReport = async (reportType, startDate, endDate) => {
-    try {
-      // Triggering API call to fetch the report as a blob
-      const response = await api.get(`/download-report/${reportType}`, {
-        params: { startDate, endDate },
-        responseType: "blob", // Ensuring that the response is in binary format (PDF)
-      });
-
-      // Verifying if the response is valid
-      if (response.data) {
-        const blob = new Blob([response.data], { type: "application/pdf" }); // Creating a blob for the PDF
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob); // Generating URL for the blob
-        link.download = `${reportType}-report.pdf`; // Setting the file name dynamically
-        link.click(); // Triggering the download
-      } else {
-        toast.error(
-          `Failed to download ${reportType} report. No data received.`
-        );
-      }
-    } catch (error) {
-      toast.error(`Error downloading ${reportType} report:`, error);
-    }
-  };
-
   if (loading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
@@ -165,15 +138,7 @@ const AdminDashboard = () => {
           <div className="w-full bg-orange-50 md:p-6 shadow-inner rounded-md">
             {expenseData && <ExpenseBarChart data={expenseData} />}
           </div>
-          <button
-            onClick={() =>
-              handleDownloadReport("expense", expenseStartDate, expenseEndDate)
-            }
-            className="text-sm md:text-base mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 bg-orange-600 text-white font-medium rounded-md hover:bg-orange-700 transition-colors"
-          >
-            <Download className="w-5 h-5" />
-            Download Expense Report
-          </button>
+    
         </div>
       </div>
 
@@ -215,15 +180,7 @@ const AdminDashboard = () => {
           <div className="bg-orange-50 md:p-6 shadow-inner rounded-md">
             {revenueData && <RevenueBarChart data={revenueData} />}
           </div>
-          <button
-            onClick={() =>
-              handleDownloadReport("revenue", revenueStartDate, revenueEndDate)
-            }
-            className="text-sm md:text-base mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 bg-orange-600 text-white font-medium rounded-md hover:bg-orange-700 transition-colors"
-          >
-            <Download className="w-5 h-5" />
-            Download Revenue Report
-          </button>
+         
         </div>
       </div>
     </div>
